@@ -82,15 +82,16 @@ uTest = {
 
       for (var groupName in this.testGroups)
       {
-         this.runTestGroup(this.testGroups[groupName]);
+         this.runTestGroup(groupName);
       }
    },
 
-   runTestGroup: function (group) {
+   runTestGroup: function (groupName) {
+      var group = this.testGroups[groupName];
+
       console.log("Running test group " + group.name);
 
       this.currentGroup = group.name;
-
       try {
          for (var i = 0; i < group.tests.length; i++)
          {
