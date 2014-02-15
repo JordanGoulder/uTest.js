@@ -108,7 +108,7 @@ var uTest = {
             matches;
 
       if (error.stack) {
-         callerLines = error.stack.split("\n")[3];
+         callerLines = error.stack.split("\n")[4];
          matches = callerLines.match(/\((.*)\)/);
          if (matches !== null) {
             errorString += matches[1] + ": ";
