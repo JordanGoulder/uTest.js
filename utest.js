@@ -9,7 +9,7 @@ var uTest = {
    failCount:     0,
    runCount:      0,
    ignoreCount:   0,
-   startTime:     Date.now(),
+   startTime:     0,
 
    TEST_GROUP: function (group) {
       group.tests = [ ];
