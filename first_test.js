@@ -1,5 +1,6 @@
 uTest.TEST_GROUP({ name: "FirstGroup",
    setup: function () {
+      uTest.CHECK(true);
    },
 
    teardown: function () {
@@ -27,10 +28,8 @@ uTest.TEST({ group: "FirstGroup", name: "ThirdTest",
 
 uTest.TEST_GROUP({ name: "SecondGroup" });
 
-uTest.TEST({ group: "SecondGroup", name: "TestA",
+uTest.TEST({ group: "SecondGroup", name: "FirstTest",
    run: function () {
       uTest.FAIL("Fail TestA");
    },
 });
-
-uTest.TEST_GROUP({ name: "EmptyGroup" });

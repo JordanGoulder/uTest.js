@@ -5,6 +5,8 @@ var uTest = {
 
    runCount:      0,
 
+   checkCount:    0,
+
    ignoreCount:   0,
 
    startTime:     0,
@@ -131,7 +133,7 @@ var uTest = {
       return count;
    },
 
-   getCheckCount: function () {
+   countChecks: function (func) {
       var   count = 0,
             re,
             reStr,
@@ -150,18 +152,11 @@ var uTest = {
 
       re = new RegExp(reStr, "g");
 
-      for (var groupName in this.testGroups) {
+      functionStr = '' + func;
+      matches = functionStr.match(re);
 
-         for (var i = 0; i < this.testGroups[groupName].tests.length; i++) {
-
-            functionStr = '' + this.testGroups[groupName].tests[i].run;
-
-            matches = functionStr.match(re);
-
-            if (matches !== null) {
-               count += matches.length;
-            }
-         }
+      if (matches !== null) {
+         count += matches.length;
       }
 
       return count;
@@ -170,6 +165,7 @@ var uTest = {
    resetResults: function () {
       this.failCount    = 0;
       this.runCount     = 0;
+      this.checkCount   = 0;
       this.ignoreCount  = 0;
       this.startTime    = Date.now();
    },
@@ -198,8 +194,8 @@ var uTest = {
 
       results += this.runCount + " ran, ";
 
-      results += this.getCheckCount();
-      if (this.getCheckCount() === 1) {
+      results += this.checkCount;
+      if (this.checkCount === 1) {
          results += " check, ";
       } else {
          results += " checks, ";
@@ -210,8 +206,6 @@ var uTest = {
       results += Date.now() - this.startTime + " ms)\n\n";
 
       console.log(results);
-
-      this.getCheckCount();
    },
 
    runAllTests: function () {
@@ -236,6 +230,14 @@ var uTest = {
       }
 
       this.currentGroup = group.name;
+
+      if (typeof group.setup === "function") {
+         this.checkCount += this.countChecks(group.setup);
+      }
+
+      if (typeof group.teardown === "function") {
+         this.checkCount += this.countChecks(group.teardown);
+      }
 
       for (var i = 0; i < group.tests.length; i++) {
          this.currentTest = group.tests[i].name;
@@ -286,6 +288,7 @@ var uTest = {
 
       try {
          if (typeof test.run === "function") {
+            this.checkCount += this.countChecks(test.run);
             test.run();
          }
       } catch (ex) {
