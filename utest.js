@@ -22,40 +22,49 @@ var uTest = {
    },
 
    CHECK: function (condition) {
-      var errorString = this.getErrorString() + "\tCHECK failed";
+      var errorString;
 
       if (condition !== true) {
+         errorString = this.buildErrorString() + "\tCHECK failed";
          this.throwTestError(errorString);
       }
    },
 
    CHECK_TEXT: function (condition, text) {
-      var errorString = this.getErrorString() + "\tMessage: " + text + "\n\tCHECK failed";
+      var errorString;
+
       if (condition !== true) {
+         errorString = this.buildErrorString() + "\tMessage: " + text + "\n\tCHECK failed";
          this.throwTestError(errorString);
       }
    },
 
    CHECK_EQUAL: function (expected, actual) {
-      var errorString = this.getErrorString() + "\texpected <" + expected  + ">\n" +
-                                                "\tbut was  <" + actual    + ">";
+      var errorString;
+
       if (expected !== actual) {
+         errorString = this.buildErrorString() +   "\texpected <" + expected  + ">\n" +
+                                                   "\tbut was  <" + actual    + ">";
          this.throwTestError(errorString);
       }
    },
 
    STRCMP_EQUAL: function (expected, actual) {
-      var errorString = this.getErrorString() + "\texpected <" + expected.toString()   + ">\n" +
-                                                "\tbut was  <" + actual.toString()     + ">";
+      var errorString;
+
       if (expected.toString() !== actual.toString()) {
+         errorString = this.buildErrorString() +   "\texpected <" + expected.toString()   + ">\n" +
+                                                   "\tbut was  <" + actual.toString()     + ">";
          this.throwTestError(errorString);
       }
    },
 
    LONGS_EQUAL: function (expected, actual) {
-      var errorString = this.getErrorString() + "\texpected <" + Math.floor(expected)  + ">\n" +
-                                                "\tbut was  <" + Math.floor(actual)    + ">";
+      var errorString;
+
       if (Math.floor(expected) !== Math.floor(actual)) {
+         errorString = this.buildErrorString() +   "\texpected <" + Math.floor(expected)  + ">\n" +
+                                                   "\tbut was  <" + Math.floor(actual)    + ">";
          this.throwTestError(errorString);
       }
    },
@@ -65,16 +74,18 @@ var uTest = {
    },
 
    DOUBLES_EQUAL: function (expected, actual, tolerance) {
-      var errorString = this.getErrorString() + "\texpected <" + expected  + ">\n"  +
-                                                "\tbut was  <" + actual    + ">"    +
-                                                " threshold was <" + tolerance + ">";
+      var errorString;
+
       if (Math.abs(expected - actual) > tolerance) {
+         errorString = this.buildErrorString() +   "\texpected <" + expected  + ">\n"  +
+                                                   "\tbut was  <" + actual    + ">"    +
+                                                   " threshold was <" + tolerance + ">";
          this.throwTestError(errorString);
       }
    },
 
    FAIL: function (text) {
-      var errorString = this.getErrorString() + "\t" + text;
+      var errorString = this.buildErrorString() + "\t" + text;
       this.throwTestError(errorString);
    },
 
@@ -90,7 +101,7 @@ var uTest = {
       throw new this.TestError(message);
    },
 
-   getErrorString: function () {
+   buildErrorString: function () {
       var errorString = "error: Failure in TEST(";
 
       if (this.currentGroup !== "_default") {
@@ -104,7 +115,9 @@ var uTest = {
 
    findTestByName: function (testName) {
       for (var groupName in this.testGroups) {
+
          for (var i = 0; i < this.testGroups[groupName].tests.length; i++) {
+
             if (this.testGroups[groupName].tests[i].name == testName) {
                return this.testGroups[groupName].tests[i];
             }
