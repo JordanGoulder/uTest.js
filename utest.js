@@ -20,14 +20,14 @@ var uTest = {
       var errorString = this.getErrorString() + "\tCHECK failed";
 
       if (condition !== true) {
-         throw new Error(errorString);
+         this.throwTestError(errorString);
       }
    },
 
    CHECK_TEXT: function (condition, text) {
       var errorString = this.getErrorString() + "\tMessage: " + text + "\n\tCHECK failed";
       if (condition !== true) {
-         throw new Error(errorString);
+         this.throwTestError(errorString);
       }
    },
 
@@ -35,7 +35,7 @@ var uTest = {
       var errorString = this.getErrorString() + "\texpected <" + expected  + ">\n" +
                                                 "\tbut was  <" + actual    + ">";
       if (expected !== actual) {
-         throw new Error(errorString);
+         this.throwTestError(errorString);
       }
    },
 
@@ -43,7 +43,7 @@ var uTest = {
       var errorString = this.getErrorString() + "\texpected <" + expected.toString()   + ">\n" +
                                                 "\tbut was  <" + actual.toString()     + ">";
       if (expected.toString() !== actual.toString()) {
-         throw new Error(errorString);
+         this.throwTestError(errorString);
       }
    },
 
@@ -51,7 +51,7 @@ var uTest = {
       var errorString = this.getErrorString() + "\texpected <" + Math.floor(expected)  + ">\n" +
                                                 "\tbut was  <" + Math.floor(actual)    + ">";
       if (Math.floor(expected) !== Math.floor(actual)) {
-         throw new Error(errorString);
+         this.throwTestError(errorString);
       }
    },
 
@@ -64,13 +64,25 @@ var uTest = {
                                                 "\tbut was  <" + actual    + ">"    +
                                                 " threshold was <" + tolerance + ">";
       if (Math.abs(expected - actual) > tolerance) {
-         throw new Error(errorString);
+         this.throwTestError(errorString);
       }
    },
 
    FAIL: function (text) {
       var errorString = this.getErrorString() + "\t" + text;
-      throw new Error(errorString);
+      this.throwTestError(errorString);
+   },
+
+   TestError: function (message) {
+      this.name = "TestError";
+      this.message = message;
+   },
+
+   throwTestError: function (message) {
+      if (!(this.TestError instanceof Error)) {
+         this.TestError.prototype = new Error();
+      }
+      throw new this.TestError(message);
    },
 
    getErrorString: function () {
@@ -92,7 +104,11 @@ var uTest = {
             this.runTestGroup(groupName);
          }
       } catch (ex) {
-         console.log(ex.message);
+         if (ex instanceof this.TestError) {
+            console.log(ex.message);
+         } else {
+            throw ex;
+         }
       }
    },
 
