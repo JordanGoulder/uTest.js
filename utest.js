@@ -1,4 +1,4 @@
-uTest = {
+var uTest = {
    testGroups: {
       "_default": {
          name: "_default",
@@ -116,7 +116,3 @@ uTest = {
       }
    }
 }
-
-window.addEventListener("load", function() {
-   uTest.runAllTests();
-});
