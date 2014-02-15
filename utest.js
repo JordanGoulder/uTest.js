@@ -109,27 +109,15 @@ var uTest = {
    },
 
    runAllTests: function () {
-      try {
-         for (var groupName in this.testGroups)
-         {
-            this.runTestGroup(this.testGroups[groupName]);
-         }
-      } catch (ex) {
-         if (ex instanceof this.TestError) {
-            console.log(ex.message);
-         } else {
-            throw ex;
-         }
+      for (var groupName in this.testGroups)
+      {
+         this.runTestGroup(this.testGroups[groupName]);
       }
    },
 
    runTestGroup: function (group) {
-      var catchError = false;
-
       if (typeof group === "string") {
          group = this.testGroups[group];
-
-         catchError = true;
       }
 
       this.currentGroup = group.name;
@@ -149,7 +137,7 @@ var uTest = {
                group.teardown();
             }
          } catch (ex) {
-            if (catchError && (ex instanceof this.TestError)) {
+            if (ex instanceof this.TestError) {
                console.log(ex.message);
             } else {
                throw ex;
@@ -159,8 +147,6 @@ var uTest = {
    },
 
    runTest: function (test) {
-      var catchError = false;
-
       if (typeof test === "string")
       {
          test = this.findTestByName(test);
@@ -170,8 +156,6 @@ var uTest = {
 
          this.currentGroup = "_default";
          this.currentTest = test.name;
-
-         catchError = true;
       }
 
       try {
@@ -179,7 +163,7 @@ var uTest = {
             test.run();
          }
       } catch (ex) {
-         if (catchError && (ex instanceof this.TestError)) {
+         if (ex instanceof this.TestError) {
             console.log(ex.message);
          } else {
             throw ex;
