@@ -102,12 +102,20 @@ var uTest = {
    },
 
    buildErrorString: function () {
-      var error = new Error();
-      var callerLines = error.stack.split("\n")[3];
-      var fileName = callerLines.match(/\((.*)\)/)[1];
+      var   error = (function () { try { throw new Error(); } catch (ex) {return ex;}})(),
+            errorString = "",
+            callerLines,
+            matches;
 
-      errorString = fileName;
-      errorString += ": error: Failure in TEST(";
+      if (error.stack) {
+         callerLines = error.stack.split("\n")[3];
+         matches = callerLines.match(/\((.*)\)/);
+         if (matches !== null) {
+            errorString += matches[1] + ": ";
+         }
+      }
+
+      errorString += "error: Failure in TEST(";
       errorString += this.currentGroup + ", ";
       errorString += this.currentTest + ")\n";
 
