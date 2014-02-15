@@ -112,7 +112,7 @@ var uTest = {
       try {
          for (var groupName in this.testGroups)
          {
-            this.runTestGroup(groupName);
+            this.runTestGroup(this.testGroups[groupName]);
          }
       } catch (ex) {
          if (ex instanceof this.TestError) {
@@ -123,8 +123,10 @@ var uTest = {
       }
    },
 
-   runTestGroup: function (groupName) {
-      var group = this.testGroups[groupName];
+   runTestGroup: function (group) {
+      if (typeof group === "string") {
+         group = this.testGroups[group];
+      }
 
       this.currentGroup = group.name;
 
