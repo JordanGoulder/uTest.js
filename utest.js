@@ -6,6 +6,11 @@ var uTest = {
       }
    },
 
+   failCount:     0,
+   runCount:      0,
+   ignoreCount:   0,
+   startTime:     null,
+
    TEST_GROUP: function (group) {
       group.tests = [ ];
       this.testGroups[group.name] = group;
@@ -75,7 +80,7 @@ var uTest = {
 
    TestError: function (message) {
       this.name = "TestError";
-      this.message = message;
+      this.message = message + "\n";
    },
 
    throwTestError: function (message) {
@@ -86,7 +91,7 @@ var uTest = {
    },
 
    getErrorString: function () {
-      var errorString = "error: Failiure in TEST(";
+      var errorString = "error: Failure in TEST(";
 
       if (this.currentGroup !== "_default") {
          errorString += this.currentGroup + ", ";
@@ -108,23 +113,80 @@ var uTest = {
       return null;
    },
 
+   getTestCount: function () {
+      var count = 0;
+
+      for (var groupName in this.testGroups) {
+         count += this.testGroups[groupName].tests.length;
+      }
+
+      return count;
+   },
+
+   resetResults: function () {
+      this.failCount    = 0;
+      this.runCount     = 0;
+      this.ignoreCount  = 0;
+      this.startTime    = Date.now();
+   },
+
+   logResults: function () {
+      var results;
+
+      if (this.failCount > 0) {
+         results =   "Errors ("     +
+                     this.failCount;
+         if (this.failCount === 1) {
+            results += " failure, ";
+         } else {
+            results += " failures, ";
+         }
+      } else {
+         results = "OK (";
+      }
+
+      results += this.getTestCount();
+      if (this.getTestCount() === 1) {
+         results += " test, ";
+      } else {
+         results += " tests, ";
+      }
+
+      results += this.runCount + " ran, ";
+      results += this.ignoreCount + " ignored, ";
+      results += this.getTestCount() - this.runCount + " filtered out, ";
+      results += Date.now() - this.startTime + " ms)\n\n";
+
+      console.log(results);
+   },
+
    runAllTests: function () {
-      for (var groupName in this.testGroups)
-      {
+      this.resetResults();
+
+      for (var groupName in this.testGroups) {
          this.runTestGroup(this.testGroups[groupName]);
       }
+
+      this.logResults();
    },
 
    runTestGroup: function (group) {
+      var log = false;
+
       if (typeof group === "string") {
          group = this.testGroups[group];
+
+         this.resetResults();
+
+         log = true;
       }
 
       this.currentGroup = group.name;
 
-      for (var i = 0; i < group.tests.length; i++)
-      {
+      for (var i = 0; i < group.tests.length; i++) {
          this.currentTest = group.tests[i].name;
+
+         this.runCount++;
 
          try {
             if (typeof group.setup === "function") {
@@ -139,16 +201,22 @@ var uTest = {
          } catch (ex) {
             if (ex instanceof this.TestError) {
                console.log(ex.message);
+               this.failCount++;
             } else {
                throw ex;
             }
          }
       }
+
+      if (log) {
+         this.logResults();
+      }
    },
 
    runTest: function (test) {
-      if (typeof test === "string")
-      {
+      var log = false;
+
+      if (typeof test === "string") {
          test = this.findTestByName(test);
          if (test === null) {
             return;
@@ -156,6 +224,11 @@ var uTest = {
 
          this.currentGroup = "_default";
          this.currentTest = test.name;
+
+         this.resetResults();
+         log = true;
+
+         this.runCount++;
       }
 
       try {
@@ -165,9 +238,14 @@ var uTest = {
       } catch (ex) {
          if (ex instanceof this.TestError) {
             console.log(ex.message);
+            this.failCount++;
          } else {
             throw ex;
          }
+      }
+
+      if (log) {
+         this.logResults();
       }
    }
 };
