@@ -79,7 +79,7 @@ var uTest = {
    },
 
    throwTestError: function (message) {
-      if (!(this.TestError instanceof Error)) {
+      if (this.TestError.prototype.toString() !== "Error") {
          this.TestError.prototype = new Error();
       }
       throw new this.TestError(message);
@@ -124,8 +124,12 @@ var uTest = {
    },
 
    runTestGroup: function (group) {
+      var catchError = false;
+
       if (typeof group === "string") {
          group = this.testGroups[group];
+
+         catchError = true;
       }
 
       this.currentGroup = group.name;
@@ -134,19 +138,29 @@ var uTest = {
       {
          this.currentTest = group.tests[i].name;
 
-         if (typeof group.setup === "function") {
-            group.setup();
-         }
+         try {
+            if (typeof group.setup === "function") {
+               group.setup();
+            }
 
-         this.runTest(group.tests[i]);
+            this.runTest(group.tests[i]);
 
-         if (typeof group.teardown === "function") {
-            group.teardown();
+            if (typeof group.teardown === "function") {
+               group.teardown();
+            }
+         } catch (ex) {
+            if (catchError && (ex instanceof this.TestError)) {
+               console.log(ex.message);
+            } else {
+               throw ex;
+            }
          }
       }
    },
 
    runTest: function (test) {
+      var catchError = false;
+
       if (typeof test === "string")
       {
          test = this.findTestByName(test);
@@ -154,11 +168,22 @@ var uTest = {
             return;
          }
 
+         this.currentGroup = "_default";
          this.currentTest = test.name;
+
+         catchError = true;
       }
 
-      if (typeof test.run === "function") {
-         test.run();
+      try {
+         if (typeof test.run === "function") {
+            test.run();
+         }
+      } catch (ex) {
+         if (catchError && (ex instanceof this.TestError)) {
+            console.log(ex.message);
+         } else {
+            throw ex;
+         }
       }
    }
 };
