@@ -1,14 +1,12 @@
 var uTest = {
-   testGroups: {
-      "_default": {
-         name: "_default",
-         tests: [ ]
-      }
-   },
+   testGroups:    {},
 
    failCount:     0,
+
    runCount:      0,
+
    ignoreCount:   0,
+
    startTime:     0,
 
    TEST_GROUP: function (group) {
@@ -17,7 +15,7 @@ var uTest = {
    },
 
    TEST: function (test) {
-      test.group = test.group || "_default";
+      test.group = test.group;
       this.testGroups[test.group].tests.push(test);
    },
 
@@ -104,10 +102,7 @@ var uTest = {
    buildErrorString: function () {
       var errorString = "error: Failure in TEST(";
 
-      if (this.currentGroup !== "_default") {
-         errorString += this.currentGroup + ", ";
-      }
-
+      errorString += this.currentGroup + ", ";
       errorString += this.currentTest + ")\n";
 
       return errorString;
@@ -131,6 +126,42 @@ var uTest = {
 
       for (var groupName in this.testGroups) {
          count += this.testGroups[groupName].tests.length;
+      }
+
+      return count;
+   },
+
+   getCheckCount: function () {
+      var   count = 0,
+            re,
+            reStr,
+            functionStr,
+            matches;
+
+      reStr =  "uTest\\.(CHECK"     +
+               "|CHECK_TEXT"        +
+               "|CHECK_EQUAL"       +
+               "|STRCMP_EQUAL"      +
+               "|LONGS_EQUAL"       +
+               "|BYTES_EQUAL"       +
+               "|DOUBLES_EQUAL"     +
+               "|FAIL"              +
+               ")";
+
+      re = new RegExp(reStr, "g");
+
+      for (var groupName in this.testGroups) {
+
+         for (var i = 0; i < this.testGroups[groupName].tests.length; i++) {
+
+            functionStr = '' + this.testGroups[groupName].tests[i].run;
+
+            matches = functionStr.match(re);
+
+            if (matches !== null) {
+               count += matches.length;
+            }
+         }
       }
 
       return count;
@@ -166,11 +197,21 @@ var uTest = {
       }
 
       results += this.runCount + " ran, ";
+
+      results += this.getCheckCount();
+      if (this.getCheckCount() === 1) {
+         results += " check, ";
+      } else {
+         results += " checks, ";
+      }
+
       results += this.ignoreCount + " ignored, ";
       results += this.getTestCount() - this.runCount + " filtered out, ";
       results += Date.now() - this.startTime + " ms)\n\n";
 
       console.log(results);
+
+      this.getCheckCount();
    },
 
    runAllTests: function () {
@@ -235,7 +276,6 @@ var uTest = {
             return;
          }
 
-         this.currentGroup = "_default";
          this.currentTest = test.name;
 
          this.resetResults();
