@@ -1,28 +1,20 @@
-uTest.TEST_GROUP({ name: "First Group",
+uTest.TEST_GROUP({ name: "FirstGroup",
    setup: function () {
-      console.log("setup");
    },
 
    teardown: function () {
-      console.log("tear down");
    }
 });
 
-uTest.TEST({ group: "First Group", name: "First Test",
+uTest.TEST({ group: "FirstGroup", name: "FirstTest",
    run: function () {
-      this.helperFunctionOne();
       uTest.FAIL("Fail me!");
    },
-
-   helperFunctionOne: function () {
-      console.log("helperFunctionOne");
-   }
 });
 
 uTest.TEST({ name: "Test with no group",
    run: function () {
-      console.log("test with no group");
    }
 });
 
-uTest.TEST_GROUP({ name: "Empty Group" });
+uTest.TEST_GROUP({ name: "EmptyGroup" });
