@@ -2,12 +2,12 @@ var uTest = {
    testGroups: {
       "_default": {
          name: "_default",
-         tests: []
+         tests: [ ]
       }
    },
 
    TEST_GROUP: function (group) {
-      group.tests = [];
+      group.tests = [ ];
       this.testGroups[group.name] = group;
    },
 
@@ -78,41 +78,36 @@ var uTest = {
    },
 
    runAllTests: function () {
-      console.log("uTest.runAllTests");
-
-      for (var groupName in this.testGroups)
-      {
-         this.runTestGroup(groupName);
+      try {
+         for (var groupName in this.testGroups)
+         {
+            this.runTestGroup(groupName);
+         }
+      } catch (ex) {
+         console.log(ex.message);
       }
    },
 
    runTestGroup: function (groupName) {
       var group = this.testGroups[groupName];
 
-      console.log("Running test group " + group.name);
-
       this.currentGroup = group.name;
-      try {
-         for (var i = 0; i < group.tests.length; i++)
-         {
-            this.currentTest = group.tests[i].name;
 
-            if (typeof group.setup === "function") {
-               group.setup();
-            }
+      for (var i = 0; i < group.tests.length; i++)
+      {
+         this.currentTest = group.tests[i].name;
 
-            if (typeof group.tests[i].run  === "function") {
-               group.tests[i].run();
-            }
-
-            if (typeof group.teardown === "function") {
-               group.teardown();
-            }
-
-            console.log("Passed");
+         if (typeof group.setup === "function") {
+            group.setup();
          }
-      } catch (ex) {
-         console.log(ex.message);
+
+         if (typeof group.tests[i].run  === "function") {
+            group.tests[i].run();
+         }
+
+         if (typeof group.teardown === "function") {
+            group.teardown();
+         }
       }
    }
-}
+};
