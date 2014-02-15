@@ -74,9 +74,13 @@ var uTest = {
    },
 
    getErrorString: function () {
-      var errorString = "error: Failiure in TEST(" +
-                        this.currentGroup + ", "   +
-                        this.currentTest + ")\n";
+      var errorString = "error: Failiure in TEST(";
+
+      if (this.currentGroup !== "_default") {
+         errorString + this.currentGroup + ", ";
+      }
+
+      errorString += this.currentTest + ")\n";
 
       return errorString;
    },
