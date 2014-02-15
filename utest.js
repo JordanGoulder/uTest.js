@@ -89,7 +89,7 @@ var uTest = {
       var errorString = "error: Failiure in TEST(";
 
       if (this.currentGroup !== "_default") {
-         errorString + this.currentGroup + ", ";
+         errorString += this.currentGroup + ", ";
       }
 
       errorString += this.currentTest + ")\n";
