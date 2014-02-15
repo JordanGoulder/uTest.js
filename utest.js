@@ -55,6 +55,10 @@ var uTest = {
       }
    },
 
+   BYTES_EQUAL: function (expected, actual) {
+      this.LONGS_EQUAL(expected & 0xFF, actual & 0xFF);
+   },
+
    DOUBLES_EQUAL: function (expected, actual, tolerance) {
       var errorString = this.getErrorString() + "\texpected <" + expected  + ">\n"  +
                                                 "\tbut was  <" + actual    + ">"    +
