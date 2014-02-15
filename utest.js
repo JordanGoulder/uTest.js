@@ -102,8 +102,12 @@ var uTest = {
    },
 
    buildErrorString: function () {
-      var errorString = "error: Failure in TEST(";
+      var error = new Error();
+      var callerLines = error.stack.split("\n")[3];
+      var fileName = callerLines.match(/\((.*)\)/)[1];
 
+      errorString = fileName;
+      errorString += ": error: Failure in TEST(";
       errorString += this.currentGroup + ", ";
       errorString += this.currentTest + ")\n";
 
