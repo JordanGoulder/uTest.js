@@ -97,6 +97,17 @@ var uTest = {
       return errorString;
    },
 
+   findTestByName: function (testName) {
+      for (var groupName in this.testGroups) {
+         for (var i = 0; i < this.testGroups[groupName].tests.length; i++) {
+            if (this.testGroups[groupName].tests[i].name == testName) {
+               return this.testGroups[groupName].tests[i];
+            }
+         }
+      }
+      return null;
+   },
+
    runAllTests: function () {
       try {
          for (var groupName in this.testGroups)
@@ -125,13 +136,27 @@ var uTest = {
             group.setup();
          }
 
-         if (typeof group.tests[i].run  === "function") {
-            group.tests[i].run();
-         }
+         this.runTest(group.tests[i]);
 
          if (typeof group.teardown === "function") {
             group.teardown();
          }
+      }
+   },
+
+   runTest: function (test) {
+      if (typeof test === "string")
+      {
+         test = this.findTestByName(test);
+         if (test === null) {
+            return;
+         }
+
+         this.currentTest = test.name;
+      }
+
+      if (typeof test.run === "function") {
+         test.run();
       }
    }
 };
