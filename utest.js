@@ -136,18 +136,32 @@ var uTest = {
    },
 
    run: function (groupName, testName) {
-      var tests;
+      var   tests,
+            start;
 
       this.resetResults();
 
       tests = this.findTests(groupName, testName);
 
       for (var i = 0; i < tests.length; i++) {
+
+         start = Date.now();
+
          if (tests[i].ignore === true) {
+
+            console.log("IGNORE_TEST(" + tests[i].group +
+                  ", " + tests[i].name + ")");
+
             this.ignoreCount++;
          } else {
+
+            console.log("TEST(" + tests[i].group +
+                  ", " + tests[i].name + ")");
+
             this.runTestObj(tests[i]);
          }
+
+         console.log(" - " + (Date.now() - start) + " ms\n");
       }
 
       this.logResults(groupName, testName);
