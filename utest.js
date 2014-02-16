@@ -12,8 +12,23 @@ var uTest = {
    },
 
    TEST: function (test) {
-      test.group = test.group;
+      test.ignore = false;
       this.testGroups[test.group].tests.push(test);
+   },
+
+   IGNORE_TEST: function (test) {
+      var   groupName = test.group,
+            testName = test.name,
+            tests;
+
+      if ((groupName !== null) && (testName !== null)) {
+
+         tests = this.findTests(groupName, testName);
+
+         if (tests.length === 1) {
+            tests[0].ignore = true;
+         }
+      }
    },
 
    CHECK: function (condition) {
@@ -124,7 +139,11 @@ var uTest = {
       tests = this.findTests(groupName, testName);
 
       for (var i = 0; i < tests.length; i++) {
-         this.runTestObj(tests[i]);
+         if (tests[i].ignore === true) {
+            this.ignoreCount++;
+         } else {
+            this.runTestObj(tests[i]);
+         }
       }
 
       this.logResults(groupName, testName);
@@ -195,27 +214,35 @@ var uTest = {
 
    getCheckCount: function (groupName, testName) {
       var count = 0;
+      var isTestInGroup = false;
 
       for (var name in this.testGroups) {
 
          if ((groupName === null) || (name === groupName)) {
 
-            if (typeof this.testGroups[name].setup === "function") {
-               count += this.countChecksIn(this.testGroups[name].setup);
-            }
-
-            if (typeof this.testGroups[name].teardown === "function") {
-               count += this.countChecksIn(this.testGroups[name].teardown);
-            }
-
             for (var i = 0; i < this.testGroups[name].tests.length; i++) {
 
                if ((testName === null) || (this.testGroups[name].tests[i].name == testName)) {
 
-                  if (typeof this.testGroups[name].tests[i].run === "function") {
+                  if (
+                        (typeof this.testGroups[name].tests[i].run === "function") &&
+                        (this.testGroups[name].tests[i].ignore !== true)
+                     ) {
 
                      count += this.countChecksIn(this.testGroups[name].tests[i].run);
+
+                     isTestInGroup = true;
                   }
+               }
+            }
+
+            if (isTestInGroup === true) {
+               if (typeof this.testGroups[name].setup === "function") {
+                  count += this.countChecksIn(this.testGroups[name].setup);
+               }
+
+               if (typeof this.testGroups[name].teardown === "function") {
+                  count += this.countChecksIn(this.testGroups[name].teardown);
                }
             }
          }

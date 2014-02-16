@@ -33,3 +33,5 @@ uTest.TEST({ group: "SecondGroup", name: "FirstTest",
       uTest.FAIL("Fail TestA");
    },
 });
+
+uTest.IGNORE_TEST({ group: "FirstGroup", name: "ThirdTest" });
