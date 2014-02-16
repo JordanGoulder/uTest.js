@@ -96,6 +96,12 @@ var uTest = {
       this._throwTestError(errorString);
    },
 
+   clone: function() {
+      var newObj = Object.create(this);
+      newObj._init();
+      return newObj;
+   },
+
    enableVerboseLogging: function () {
       this._verbose = true;
    },
@@ -145,6 +151,18 @@ var uTest = {
    _verbose:      false,
    _currentGroup: "",
    _currentTest:  "",
+
+   _init: function () {
+      this._testGroups     = {};
+      this._failCount      = 0;
+      this._runCount       = 0;
+      this._checkCount     = 0;
+      this._ignoreCount    = 0;
+      this._startTime      = 0;
+      this._verbose        = false;
+      this._currentGroup   = "";
+      this._currentTest    = "";
+   },
 
    _run: function (groupName, testName) {
       var   tests,
@@ -310,7 +328,7 @@ var uTest = {
       try {
 
          if (typeof group.setup === "function") {
-            group.setup();
+            group.setup(test);
          }
 
          if (typeof test.run === "function") {
@@ -318,7 +336,7 @@ var uTest = {
          }
 
          if (typeof group.teardown === "function") {
-            group.teardown();
+            group.teardown(test);
          }
 
       } catch (ex) {
