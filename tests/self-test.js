@@ -12,7 +12,7 @@ uTest.TEST_GROUP({ name: "SelfTests",
 
 uTest.TEST({ group: "SelfTests", name: "Clone",
    run: function (uTest) {
-      uTest.CHECK(this.myTest.__proto__ === uTest);
+      uTest.CHECK(Object.getPrototypeOf(this.myTest) === uTest);
       uTest.CHECK(this.myTest._getTestCount() === 0);
    },
 });
