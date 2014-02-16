@@ -102,6 +102,14 @@ var uTest = {
       return newObj;
    },
 
+   enableLogging: function () {
+      this._logging = true;
+   },
+
+   disableLogging: function () {
+      this._logging = false;
+   },
+
    enableVerboseLogging: function () {
       this._verbose = true;
    },
@@ -149,6 +157,7 @@ var uTest = {
    _ignoreCount:  0,
    _startTime:    0,
    _verbose:      false,
+   _logging:      true,
    _currentGroup: "",
    _currentTest:  "",
 
@@ -160,8 +169,15 @@ var uTest = {
       this._ignoreCount    = 0;
       this._startTime      = 0;
       this._verbose        = false;
+      this._logging        = true;
       this._currentGroup   = "";
       this._currentTest    = "";
+   },
+
+   _log: function (text) {
+      if (this._logging === true) {
+         console.log(text);
+      }
    },
 
    _run: function (groupName, testName) {
@@ -179,7 +195,7 @@ var uTest = {
          if (tests[i].ignore === true) {
 
             if (this._verbose === true) {
-               console.log("IGNORE_TEST(" + tests[i].group +
+               this._log("IGNORE_TEST(" + tests[i].group +
                      ", " + tests[i].name + ")");
             }
 
@@ -187,7 +203,7 @@ var uTest = {
          } else {
 
             if (this._verbose === true) {
-               console.log("TEST(" + tests[i].group +
+               this._log("TEST(" + tests[i].group +
                      ", " + tests[i].name + ")");
             }
 
@@ -195,7 +211,7 @@ var uTest = {
          }
 
          if (this._verbose === true) {
-            console.log(" - " + (Date.now() - start) + " ms\n");
+            this._log(" - " + (Date.now() - start) + " ms\n");
          }
       }
 
@@ -314,7 +330,7 @@ var uTest = {
       results += " filtered out, ";
       results += (stopTime - this._startTime) + " ms)\n\n";
 
-      console.log(results);
+      this._log(results);
    },
 
    _runTestObj: function (test) {
@@ -332,7 +348,7 @@ var uTest = {
          }
 
          if (typeof test.run === "function") {
-            test.run();
+            test.run(this);
          }
 
          if (typeof group.teardown === "function") {
@@ -343,7 +359,7 @@ var uTest = {
 
          if (ex instanceof this._TestError) {
 
-            console.log(ex.message);
+            this._log(ex.message);
             this._failCount++;
 
          } else {
