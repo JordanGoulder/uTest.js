@@ -6,6 +6,7 @@ var uTest = {
    checkCont:     0,
    ignoreCount:   0,
    startTime:     0,
+   verbose:       false,
 
    TEST_GROUP: function (group) {
       group.tests = [ ];
@@ -149,19 +150,25 @@ var uTest = {
 
          if (tests[i].ignore === true) {
 
-            console.log("IGNORE_TEST(" + tests[i].group +
-                  ", " + tests[i].name + ")");
+            if (this.verbose === true) {
+               console.log("IGNORE_TEST(" + tests[i].group +
+                     ", " + tests[i].name + ")");
+            }
 
             this.ignoreCount++;
          } else {
 
-            console.log("TEST(" + tests[i].group +
-                  ", " + tests[i].name + ")");
+            if (this.verbose === true) {
+               console.log("TEST(" + tests[i].group +
+                     ", " + tests[i].name + ")");
+            }
 
             this.runTestObj(tests[i]);
          }
 
-         console.log(" - " + (Date.now() - start) + " ms\n");
+         if (this.verbose === true) {
+            console.log(" - " + (Date.now() - start) + " ms\n");
+         }
       }
 
       this.logResults(groupName, testName);
