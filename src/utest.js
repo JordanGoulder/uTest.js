@@ -43,7 +43,7 @@ var uTest = {
       this._checkCount++;
 
       if (expected !== actual) {
-         errorString = this._buildErrorString() +   "\texpected <" + expected  + ">\n" +
+         errorString = this._buildErrorString() +  "\texpected <" + expected  + ">\n" +
                                                    "\tbut was  <" + actual    + ">";
          this._throwTestError(errorString);
       }
@@ -55,7 +55,7 @@ var uTest = {
       this._checkCount++;
 
       if (expected.toString() !== actual.toString()) {
-         errorString = this._buildErrorString() +   "\texpected <" + expected.toString()   + ">\n" +
+         errorString = this._buildErrorString() +  "\texpected <" + expected.toString()   + ">\n" +
                                                    "\tbut was  <" + actual.toString()     + ">";
          this._throwTestError(errorString);
       }
@@ -67,7 +67,7 @@ var uTest = {
       this._checkCount++;
 
       if (Math.floor(expected) !== Math.floor(actual)) {
-         errorString = this._buildErrorString() +   "\texpected <" + Math.floor(expected)  + ">\n" +
+         errorString = this._buildErrorString() +  "\texpected <" + Math.floor(expected)  + ">\n" +
                                                    "\tbut was  <" + Math.floor(actual)    + ">";
          this._throwTestError(errorString);
       }
@@ -83,7 +83,7 @@ var uTest = {
       this._checkCount++;
 
       if (Math.abs(expected - actual) > tolerance) {
-         errorString = this._buildErrorString() +   "\texpected <" + expected  + ">\n"  +
+         errorString = this._buildErrorString() +  "\texpected <" + expected  + ">\n"  +
                                                    "\tbut was  <" + actual    + ">"    +
                                                    " threshold was <" + tolerance + ">";
          this._throwTestError(errorString);
