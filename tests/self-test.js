@@ -17,6 +17,27 @@ uTest.TEST({ group: "SelfTests", name: "Clone",
    },
 });
 
+uTest.TEST({ group: "SelfTests", name: "Logging",
+   run: function (uTest) {
+
+      this.myTest._logging = false;
+      this.myTest.enableLogging();
+      uTest.CHECK(this.myTest._logging);
+
+      this.myTest._logging = true;
+      this.myTest.disableLogging();
+      uTest.CHECK_EQUAL(this.myTest._logging, false);
+
+      this.myTest._verbose = false;
+      this.myTest.enableVerboseLogging();
+      uTest.CHECK(this.myTest._verbose);
+
+      this.myTest._verbose = true;
+      this.myTest.disableVerboseLogging();
+      uTest.CHECK_EQUAL(this.myTest._verbose, false);
+   },
+});
+
 uTest.TEST({ group: "SelfTests", name: "PassingChecks",
    run: function (uTest) {
 
