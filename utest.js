@@ -3,6 +3,7 @@ var uTest = {
 
    failCount:     0,
    runCount:      0,
+   checkCont:     0,
    ignoreCount:   0,
    startTime:     0,
 
@@ -34,6 +35,8 @@ var uTest = {
    CHECK: function (condition) {
       var errorString;
 
+      this.checkCount++;
+
       if (condition !== true) {
          errorString = this.buildErrorString() + "\tCHECK failed";
          this.throwTestError(errorString);
@@ -43,6 +46,8 @@ var uTest = {
    CHECK_TEXT: function (condition, text) {
       var errorString;
 
+      this.checkCount++;
+
       if (condition !== true) {
          errorString = this.buildErrorString() + "\tMessage: " + text + "\n\tCHECK failed";
          this.throwTestError(errorString);
@@ -51,6 +56,8 @@ var uTest = {
 
    CHECK_EQUAL: function (expected, actual) {
       var errorString;
+
+      this.checkCount++;
 
       if (expected !== actual) {
          errorString = this.buildErrorString() +   "\texpected <" + expected  + ">\n" +
@@ -62,6 +69,8 @@ var uTest = {
    STRCMP_EQUAL: function (expected, actual) {
       var errorString;
 
+      this.checkCount++;
+
       if (expected.toString() !== actual.toString()) {
          errorString = this.buildErrorString() +   "\texpected <" + expected.toString()   + ">\n" +
                                                    "\tbut was  <" + actual.toString()     + ">";
@@ -71,6 +80,8 @@ var uTest = {
 
    LONGS_EQUAL: function (expected, actual) {
       var errorString;
+
+      this.checkCount++;
 
       if (Math.floor(expected) !== Math.floor(actual)) {
          errorString = this.buildErrorString() +   "\texpected <" + Math.floor(expected)  + ">\n" +
@@ -85,6 +96,8 @@ var uTest = {
 
    DOUBLES_EQUAL: function (expected, actual, tolerance) {
       var errorString;
+
+      this.checkCount++;
 
       if (Math.abs(expected - actual) > tolerance) {
          errorString = this.buildErrorString() +   "\texpected <" + expected  + ">\n"  +
@@ -212,77 +225,10 @@ var uTest = {
       return count;
    },
 
-   getCheckCount: function (groupName, testName) {
-      var count = 0;
-      var isTestInGroup = false;
-
-      for (var name in this.testGroups) {
-
-         if ((groupName === null) || (name === groupName)) {
-
-            for (var i = 0; i < this.testGroups[name].tests.length; i++) {
-
-               if ((testName === null) || (this.testGroups[name].tests[i].name == testName)) {
-
-                  if (
-                        (typeof this.testGroups[name].tests[i].run === "function") &&
-                        (this.testGroups[name].tests[i].ignore !== true)
-                     ) {
-
-                     count += this.countChecksIn(this.testGroups[name].tests[i].run);
-
-                     isTestInGroup = true;
-                  }
-               }
-            }
-
-            if (isTestInGroup === true) {
-               if (typeof this.testGroups[name].setup === "function") {
-                  count += this.countChecksIn(this.testGroups[name].setup);
-               }
-
-               if (typeof this.testGroups[name].teardown === "function") {
-                  count += this.countChecksIn(this.testGroups[name].teardown);
-               }
-            }
-         }
-      }
-
-      return count;
-   },
-
-   countChecksIn: function (func) {
-      var   count = 0,
-            re,
-            reStr,
-            functionStr,
-            matches;
-
-      reStr =  "uTest\\.(CHECK"     +
-               "|CHECK_TEXT"        +
-               "|CHECK_EQUAL"       +
-               "|STRCMP_EQUAL"      +
-               "|LONGS_EQUAL"       +
-               "|BYTES_EQUAL"       +
-               "|DOUBLES_EQUAL"     +
-               "|FAIL"              +
-               ")";
-
-      re = new RegExp(reStr, "g");
-
-      functionStr = '' + func;
-      matches = functionStr.match(re);
-
-      if (matches !== null) {
-         count += matches.length;
-      }
-
-      return count;
-   },
-
    resetResults: function () {
       this.failCount    = 0;
       this.runCount     = 0;
+      this.checkCount   = 0;
       this.ignoreCount  = 0;
       this.startTime    = Date.now();
    },
@@ -290,7 +236,6 @@ var uTest = {
    logResults: function (groupName, testName) {
       var   results,
             testCount,
-            checkCount,
             stopTime;
 
       stopTime = Date.now();
@@ -317,9 +262,8 @@ var uTest = {
 
       results += this.runCount + " ran, ";
 
-      checkCount = this.getCheckCount(groupName, testName);
-      results += checkCount;
-      if (checkCount === 1) {
+      results += this.checkCount;
+      if (this.checkCount === 1) {
          results += " check, ";
       } else {
          results += " checks, ";

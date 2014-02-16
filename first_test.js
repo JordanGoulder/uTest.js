@@ -23,6 +23,7 @@ uTest.TEST({ group: "FirstGroup", name: "ThirdTest",
    run: function () {
       uTest.CHECK(true);
       uTest.CHECK(true);
+      uTest.CHECK_TEXT(true, "Check Text");
    }
 });
 
@@ -34,4 +35,4 @@ uTest.TEST({ group: "SecondGroup", name: "FirstTest",
    },
 });
 
-uTest.IGNORE_TEST({ group: "FirstGroup", name: "ThirdTest" });
+//uTest.IGNORE_TEST({ group: "FirstGroup", name: "ThirdTest" });
