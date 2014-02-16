@@ -1,8 +1,8 @@
 window.addEventListener("load", function() {
-   uTest.verbose = true;
+   uTest.enableVerboseLogging();
    uTest.runAllTests();
 
-   uTest.verbose = false;
+   uTest.disableVerboseLogging();
    uTest.runTestGroup("FirstGroup");
 
    uTest.runTestGroup("SecondGroup");

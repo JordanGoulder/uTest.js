@@ -1,82 +1,75 @@
 var uTest = {
-   testGroups:    {},
-   failCount:     0,
-   runCount:      0,
-   checkCount:    0,
-   ignoreCount:   0,
-   startTime:     0,
-   verbose:       false,
 
    TEST_GROUP: function (group) {
       group.tests = [ ];
-      this.testGroups[group.name] = group;
+      this._testGroups[group.name] = group;
    },
 
    TEST: function (test) {
       test.ignore = false;
-      this.testGroups[test.group].tests.push(test);
+      this._testGroups[test.group].tests.push(test);
    },
 
    IGNORE_TEST: function (test) {
       test.ignore = true;
-      this.testGroups[test.group].tests.push(test);
+      this._testGroups[test.group].tests.push(test);
    },
 
    CHECK: function (condition) {
       var errorString;
 
-      this.checkCount++;
+      this._checkCount++;
 
       if (condition !== true) {
-         errorString = this.buildErrorString() + "\tCHECK failed";
-         this.throwTestError(errorString);
+         errorString = this._buildErrorString() + "\tCHECK failed";
+         this._throwTestError(errorString);
       }
    },
 
    CHECK_TEXT: function (condition, text) {
       var errorString;
 
-      this.checkCount++;
+      this._checkCount++;
 
       if (condition !== true) {
-         errorString = this.buildErrorString() + "\tMessage: " + text + "\n\tCHECK failed";
-         this.throwTestError(errorString);
+         errorString = this._buildErrorString() + "\tMessage: " + text + "\n\tCHECK failed";
+         this._throwTestError(errorString);
       }
    },
 
    CHECK_EQUAL: function (expected, actual) {
       var errorString;
 
-      this.checkCount++;
+      this._checkCount++;
 
       if (expected !== actual) {
-         errorString = this.buildErrorString() +   "\texpected <" + expected  + ">\n" +
+         errorString = this._buildErrorString() +   "\texpected <" + expected  + ">\n" +
                                                    "\tbut was  <" + actual    + ">";
-         this.throwTestError(errorString);
+         this._throwTestError(errorString);
       }
    },
 
    STRCMP_EQUAL: function (expected, actual) {
       var errorString;
 
-      this.checkCount++;
+      this._checkCount++;
 
       if (expected.toString() !== actual.toString()) {
-         errorString = this.buildErrorString() +   "\texpected <" + expected.toString()   + ">\n" +
+         errorString = this._buildErrorString() +   "\texpected <" + expected.toString()   + ">\n" +
                                                    "\tbut was  <" + actual.toString()     + ">";
-         this.throwTestError(errorString);
+         this._throwTestError(errorString);
       }
    },
 
    LONGS_EQUAL: function (expected, actual) {
       var errorString;
 
-      this.checkCount++;
+      this._checkCount++;
 
       if (Math.floor(expected) !== Math.floor(actual)) {
-         errorString = this.buildErrorString() +   "\texpected <" + Math.floor(expected)  + ">\n" +
+         errorString = this._buildErrorString() +   "\texpected <" + Math.floor(expected)  + ">\n" +
                                                    "\tbut was  <" + Math.floor(actual)    + ">";
-         this.throwTestError(errorString);
+         this._throwTestError(errorString);
       }
    },
 
@@ -87,28 +80,36 @@ var uTest = {
    DOUBLES_EQUAL: function (expected, actual, tolerance) {
       var errorString;
 
-      this.checkCount++;
+      this._checkCount++;
 
       if (Math.abs(expected - actual) > tolerance) {
-         errorString = this.buildErrorString() +   "\texpected <" + expected  + ">\n"  +
+         errorString = this._buildErrorString() +   "\texpected <" + expected  + ">\n"  +
                                                    "\tbut was  <" + actual    + ">"    +
                                                    " threshold was <" + tolerance + ">";
-         this.throwTestError(errorString);
+         this._throwTestError(errorString);
       }
    },
 
    FAIL: function (text) {
-      var errorString = this.buildErrorString() + "\t" + text;
-      this.checkCount++;
-      this.throwTestError(errorString);
+      var errorString = this._buildErrorString() + "\t" + text;
+      this._checkCount++;
+      this._throwTestError(errorString);
+   },
+
+   enableVerboseLogging: function () {
+      this._verbose = true;
+   },
+
+   disableVerboseLogging: function () {
+      this._verbose = false;
    },
 
    runAllTests: function () {
-      this.run(null, null);
+      this._run(null, null);
    },
 
    runTestGroup: function (groupName) {
-      this.run(groupName, null);
+      this._run(groupName, null);
    },
 
    runTest: function (test) {
@@ -131,17 +132,27 @@ var uTest = {
       }
 
       if (testName !== null) {
-         this.run(groupName, testName);
+         this._run(groupName, testName);
       }
    },
 
-   run: function (groupName, testName) {
+   _testGroups:   {},
+   _failCount:    0,
+   _runCount:     0,
+   _checkCount:   0,
+   _ignoreCount:  0,
+   _startTime:    0,
+   _verbose:      false,
+   _currentGroup: "",
+   _currentTest:  "",
+
+   _run: function (groupName, testName) {
       var   tests,
             start;
 
-      this.resetResults();
+      this._resetResults();
 
-      tests = this.findTests(groupName, testName);
+      tests = this._findTests(groupName, testName);
 
       for (var i = 0; i < tests.length; i++) {
 
@@ -149,43 +160,43 @@ var uTest = {
 
          if (tests[i].ignore === true) {
 
-            if (this.verbose === true) {
+            if (this._verbose === true) {
                console.log("IGNORE_TEST(" + tests[i].group +
                      ", " + tests[i].name + ")");
             }
 
-            this.ignoreCount++;
+            this._ignoreCount++;
          } else {
 
-            if (this.verbose === true) {
+            if (this._verbose === true) {
                console.log("TEST(" + tests[i].group +
                      ", " + tests[i].name + ")");
             }
 
-            this.runTestObj(tests[i]);
+            this._runTestObj(tests[i]);
          }
 
-         if (this.verbose === true) {
+         if (this._verbose === true) {
             console.log(" - " + (Date.now() - start) + " ms\n");
          }
       }
 
-      this.logResults(groupName, testName);
+      this._logResults(groupName, testName);
    },
 
-   TestError: function (message) {
+   _TestError: function (message) {
       this.name = "TestError";
       this.message = message + "\n";
    },
 
-   throwTestError: function (message) {
-      if (this.TestError.prototype.toString() !== "Error") {
-         this.TestError.prototype = new Error();
+   _throwTestError: function (message) {
+      if (this._TestError.prototype.toString() !== "Error") {
+         this._TestError.prototype = new Error();
       }
-      throw new this.TestError(message);
+      throw new this._TestError(message);
    },
 
-   buildErrorString: function () {
+   _buildErrorString: function () {
       var   error = (function () { try { throw new Error(); } catch (ex) {return ex;}})(),
             errorString = "",
             callerLines,
@@ -200,24 +211,24 @@ var uTest = {
       }
 
       errorString += "error: Failure in TEST(";
-      errorString += this.currentGroup + ", ";
-      errorString += this.currentTest + ")\n";
+      errorString += this._currentGroup + ", ";
+      errorString += this._currentTest + ")\n";
 
       return errorString;
    },
 
-   findTests: function (groupName, testName) {
+   _findTests: function (groupName, testName) {
       var matchingTests = [ ];
 
-      for (var name in this.testGroups) {
+      for (var name in this._testGroups) {
 
          if ((groupName === null) || (name === groupName)) {
 
-            for (var i = 0; i < this.testGroups[name].tests.length; i++) {
+            for (var i = 0; i < this._testGroups[name].tests.length; i++) {
 
-               if ((testName === null) || (this.testGroups[name].tests[i].name == testName)) {
+               if ((testName === null) || (this._testGroups[name].tests[i].name == testName)) {
 
-                  matchingTests.push(this.testGroups[name].tests[i]);
+                  matchingTests.push(this._testGroups[name].tests[i]);
                }
             }
          }
@@ -226,35 +237,35 @@ var uTest = {
       return matchingTests;
    },
 
-   getTestCount: function () {
+   _getTestCount: function () {
       var count = 0;
 
-      for (var groupName in this.testGroups) {
-         count += this.testGroups[groupName].tests.length;
+      for (var groupName in this._testGroups) {
+         count += this._testGroups[groupName].tests.length;
       }
 
       return count;
    },
 
-   resetResults: function () {
-      this.failCount    = 0;
-      this.runCount     = 0;
-      this.checkCount   = 0;
-      this.ignoreCount  = 0;
-      this.startTime    = Date.now();
+   _resetResults: function () {
+      this._failCount    = 0;
+      this._runCount     = 0;
+      this._checkCount   = 0;
+      this._ignoreCount  = 0;
+      this._startTime    = Date.now();
    },
 
-   logResults: function (groupName, testName) {
+   _logResults: function (groupName, testName) {
       var   results,
             testCount,
             stopTime;
 
       stopTime = Date.now();
 
-      if (this.failCount > 0) {
+      if (this._failCount > 0) {
          results =   "Errors ("     +
-                     this.failCount;
-         if (this.failCount === 1) {
+                     this._failCount;
+         if (this._failCount === 1) {
             results += " failure, ";
          } else {
             results += " failures, ";
@@ -263,7 +274,7 @@ var uTest = {
          results = "OK (";
       }
 
-      testCount = this.getTestCount();
+      testCount = this._getTestCount();
       results += testCount;
       if (testCount === 1) {
          results += " test, ";
@@ -271,30 +282,30 @@ var uTest = {
          results += " tests, ";
       }
 
-      results += this.runCount + " ran, ";
+      results += this._runCount + " ran, ";
 
-      results += this.checkCount;
-      if (this.checkCount === 1) {
+      results += this._checkCount;
+      if (this._checkCount === 1) {
          results += " check, ";
       } else {
          results += " checks, ";
       }
 
-      results += this.ignoreCount + " ignored, ";
-      results += this.getTestCount() - (this.runCount + this.ignoreCount);
+      results += this._ignoreCount + " ignored, ";
+      results += this._getTestCount() - (this._runCount + this._ignoreCount);
       results += " filtered out, ";
-      results += (stopTime - this.startTime) + " ms)\n\n";
+      results += (stopTime - this._startTime) + " ms)\n\n";
 
       console.log(results);
    },
 
-   runTestObj: function (test) {
-      var group = this.testGroups[test.group];
+   _runTestObj: function (test) {
+      var group = this._testGroups[test.group];
 
-      this.currentGroup = test.group;
-      this.currentTest  = test.name;
+      this._currentGroup = test.group;
+      this._currentTest  = test.name;
 
-      this.runCount++;
+      this._runCount++;
 
       try {
 
@@ -312,10 +323,10 @@ var uTest = {
 
       } catch (ex) {
 
-         if (ex instanceof this.TestError) {
+         if (ex instanceof this._TestError) {
 
             console.log(ex.message);
-            this.failCount++;
+            this._failCount++;
 
          } else {
             throw ex;
