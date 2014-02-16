@@ -117,6 +117,8 @@ var uTest = {
    },
 
    run: function (groupName, testName) {
+      var tests;
+
       this.resetResults();
 
       tests = this.findTests(groupName, testName);
