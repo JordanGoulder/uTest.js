@@ -1,9 +1,8 @@
 var uTest = {
    testGroups:    {},
-
    failCount:     0,
    runCount:      0,
-   checkCont:     0,
+   checkCount:    0,
    ignoreCount:   0,
    startTime:     0,
    verbose:       false,
