@@ -18,18 +18,8 @@ var uTest = {
    },
 
    IGNORE_TEST: function (test) {
-      var   groupName = test.group,
-            testName = test.name,
-            tests;
-
-      if ((groupName !== null) && (testName !== null)) {
-
-         tests = this.findTests(groupName, testName);
-
-         if (tests.length === 1) {
-            tests[0].ignore = true;
-         }
-      }
+      test.ignore = true;
+      this.testGroups[test.group].tests.push(test);
    },
 
    CHECK: function (condition) {
@@ -109,6 +99,7 @@ var uTest = {
 
    FAIL: function (text) {
       var errorString = this.buildErrorString() + "\t" + text;
+      this.checkCount++;
       this.throwTestError(errorString);
    },
 
@@ -270,7 +261,8 @@ var uTest = {
       }
 
       results += this.ignoreCount + " ignored, ";
-      results += this.getTestCount() - this.runCount + " filtered out, ";
+      results += this.getTestCount() - (this.runCount + this.ignoreCount);
+      results += " filtered out, ";
       results += (stopTime - this.startTime) + " ms)\n\n";
 
       console.log(results);
