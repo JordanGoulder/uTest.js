@@ -111,7 +111,7 @@ var uTest = {
          }
       }
 
-      if (testName != null) {
+      if (testName !== null) {
          this.run(groupName, testName);
       }
    },
@@ -127,7 +127,7 @@ var uTest = {
          this.runTestObj(tests[i]);
       }
 
-      this.logResults();
+      this.logResults(groupName, testName);
    },
 
    TestError: function (message) {
@@ -193,7 +193,38 @@ var uTest = {
       return count;
    },
 
-   countChecks: function (func) {
+   getCheckCount: function (groupName, testName) {
+      var count = 0;
+
+      for (var name in this.testGroups) {
+
+         if ((groupName === null) || (name === groupName)) {
+
+            if (typeof this.testGroups[name].setup === "function") {
+               count += this.countChecksIn(this.testGroups[name].setup);
+            }
+
+            if (typeof this.testGroups[name].teardown === "function") {
+               count += this.countChecksIn(this.testGroups[name].teardown);
+            }
+
+            for (var i = 0; i < this.testGroups[name].tests.length; i++) {
+
+               if ((testName === null) || (this.testGroups[name].tests[i].name == testName)) {
+
+                  if (typeof this.testGroups[name].tests[i].run === "function") {
+
+                     count += this.countChecksIn(this.testGroups[name].tests[i].run);
+                  }
+               }
+            }
+         }
+      }
+
+      return count;
+   },
+
+   countChecksIn: function (func) {
       var   count = 0,
             re,
             reStr,
@@ -229,7 +260,7 @@ var uTest = {
       this.startTime    = Date.now();
    },
 
-   logResults: function () {
+   logResults: function (groupName, testName) {
       var results;
 
       if (this.failCount > 0) {
@@ -252,6 +283,14 @@ var uTest = {
       }
 
       results += this.runCount + " ran, ";
+
+      results += this.getCheckCount(groupName, testName);
+      if (this.getCheckCount(groupName, testName) === 1) {
+         results += " check, ";
+      } else {
+         results += " checks, ";
+      }
+
       results += this.ignoreCount + " ignored, ";
       results += this.getTestCount() - this.runCount + " filtered out, ";
       results += Date.now() - this.startTime + " ms)\n\n";
