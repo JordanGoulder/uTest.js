@@ -2,13 +2,8 @@ var uTest = {
    testGroups:    {},
 
    failCount:     0,
-
    runCount:      0,
-
-   checkCount:    0,
-
    ignoreCount:   0,
-
    startTime:     0,
 
    TEST_GROUP: function (group) {
@@ -89,6 +84,50 @@ var uTest = {
       this.throwTestError(errorString);
    },
 
+   runAllTests: function () {
+      this.run(null, null);
+   },
+
+   runTestGroup: function (groupName) {
+      this.run(groupName, null);
+   },
+
+   runTest: function (test) {
+      var   groupName = null,
+            testName = null;
+
+      if (typeof test === "string") {
+
+         testName = test;
+
+      } else if (typeof test === "object") {
+
+         if ("group" in test) {
+            groupName = test.group;
+         }
+
+         if ("name" in test) {
+            testName = test.name;
+         }
+      }
+
+      if (testName != null) {
+         this.run(groupName, testName);
+      }
+   },
+
+   run: function (groupName, testName) {
+      this.resetResults();
+
+      tests = this.findTests(groupName, testName);
+
+      for (var i = 0; i < tests.length; i++) {
+         this.runTestObj(tests[i]);
+      }
+
+      this.logResults();
+   },
+
    TestError: function (message) {
       this.name = "TestError";
       this.message = message + "\n";
@@ -122,17 +161,24 @@ var uTest = {
       return errorString;
    },
 
-   findTestByName: function (testName) {
-      for (var groupName in this.testGroups) {
+   findTests: function (groupName, testName) {
+      var matchingTests = [ ];
 
-         for (var i = 0; i < this.testGroups[groupName].tests.length; i++) {
+      for (var name in this.testGroups) {
 
-            if (this.testGroups[groupName].tests[i].name == testName) {
-               return this.testGroups[groupName].tests[i];
+         if ((groupName === null) || (name === groupName)) {
+
+            for (var i = 0; i < this.testGroups[name].tests.length; i++) {
+
+               if ((testName === null) || (this.testGroups[name].tests[i].name == testName)) {
+
+                  matchingTests.push(this.testGroups[name].tests[i]);
+               }
             }
          }
       }
-      return null;
+
+      return matchingTests;
    },
 
    getTestCount: function () {
@@ -177,7 +223,6 @@ var uTest = {
    resetResults: function () {
       this.failCount    = 0;
       this.runCount     = 0;
-      this.checkCount   = 0;
       this.ignoreCount  = 0;
       this.startTime    = Date.now();
    },
@@ -205,14 +250,6 @@ var uTest = {
       }
 
       results += this.runCount + " ran, ";
-
-      results += this.checkCount;
-      if (this.checkCount === 1) {
-         results += " check, ";
-      } else {
-         results += " checks, ";
-      }
-
       results += this.ignoreCount + " ignored, ";
       results += this.getTestCount() - this.runCount + " filtered out, ";
       results += Date.now() - this.startTime + " ms)\n\n";
@@ -220,100 +257,38 @@ var uTest = {
       console.log(results);
    },
 
-   runAllTests: function () {
-      this.resetResults();
+   runTestObj: function (test) {
+      var group = this.testGroups[test.group];
 
-      for (var groupName in this.testGroups) {
-         this.runTestGroup(this.testGroups[groupName]);
-      }
+      this.currentGroup = test.group;
+      this.currentTest  = test.name;
 
-      this.logResults();
-   },
-
-   runTestGroup: function (group) {
-      var log = false;
-
-      if (typeof group === "string") {
-         group = this.testGroups[group];
-
-         this.resetResults();
-
-         log = true;
-      }
-
-      this.currentGroup = group.name;
-
-      if (typeof group.setup === "function") {
-         this.checkCount += this.countChecks(group.setup);
-      }
-
-      if (typeof group.teardown === "function") {
-         this.checkCount += this.countChecks(group.teardown);
-      }
-
-      for (var i = 0; i < group.tests.length; i++) {
-         this.currentTest = group.tests[i].name;
-
-         this.runCount++;
-
-         try {
-            if (typeof group.setup === "function") {
-               group.setup();
-            }
-
-            this.runTest(group.tests[i]);
-
-            if (typeof group.teardown === "function") {
-               group.teardown();
-            }
-         } catch (ex) {
-            if (ex instanceof this.TestError) {
-               console.log(ex.message);
-               this.failCount++;
-            } else {
-               throw ex;
-            }
-         }
-      }
-
-      if (log) {
-         this.logResults();
-      }
-   },
-
-   runTest: function (test) {
-      var log = false;
-
-      if (typeof test === "string") {
-         test = this.findTestByName(test);
-         if (test === null) {
-            return;
-         }
-
-         this.currentTest = test.name;
-
-         this.resetResults();
-         log = true;
-
-         this.runCount++;
-      }
+      this.runCount++;
 
       try {
+
+         if (typeof group.setup === "function") {
+            group.setup();
+         }
+
          if (typeof test.run === "function") {
-            this.checkCount += this.countChecks(test.run);
             test.run();
          }
+
+         if (typeof group.teardown === "function") {
+            group.teardown();
+         }
+
       } catch (ex) {
+
          if (ex instanceof this.TestError) {
+
             console.log(ex.message);
             this.failCount++;
+
          } else {
             throw ex;
          }
-      }
-
-      if (log) {
-         this.logResults();
       }
    }
 };
