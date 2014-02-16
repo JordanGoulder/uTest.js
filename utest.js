@@ -261,7 +261,12 @@ var uTest = {
    },
 
    logResults: function (groupName, testName) {
-      var results;
+      var   results,
+            testCount,
+            checkCount,
+            stopTime;
+
+      stopTime = Date.now();
 
       if (this.failCount > 0) {
          results =   "Errors ("     +
@@ -275,8 +280,9 @@ var uTest = {
          results = "OK (";
       }
 
-      results += this.getTestCount();
-      if (this.getTestCount() === 1) {
+      testCount = this.getTestCount();
+      results += testCount;
+      if (testCount === 1) {
          results += " test, ";
       } else {
          results += " tests, ";
@@ -284,8 +290,9 @@ var uTest = {
 
       results += this.runCount + " ran, ";
 
-      results += this.getCheckCount(groupName, testName);
-      if (this.getCheckCount(groupName, testName) === 1) {
+      checkCount = this.getCheckCount(groupName, testName);
+      results += checkCount;
+      if (checkCount === 1) {
          results += " check, ";
       } else {
          results += " checks, ";
@@ -293,7 +300,7 @@ var uTest = {
 
       results += this.ignoreCount + " ignored, ";
       results += this.getTestCount() - this.runCount + " filtered out, ";
-      results += Date.now() - this.startTime + " ms)\n\n";
+      results += (stopTime - this.startTime) + " ms)\n\n";
 
       console.log(results);
    },
