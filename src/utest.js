@@ -6,11 +6,13 @@ var uTest = {
    },
 
    TEST: function (test) {
+      test.uTest = this;
       test.ignore = false;
       this._testGroups[test.group].tests.push(test);
    },
 
    IGNORE_TEST: function (test) {
+      test.uTest = this;
       test.ignore = true;
       this._testGroups[test.group].tests.push(test);
    },
@@ -348,7 +350,7 @@ var uTest = {
          }
 
          if (typeof test.run === "function") {
-            test.run(this);
+            test.run();
          }
 
          if (typeof group.teardown === "function") {

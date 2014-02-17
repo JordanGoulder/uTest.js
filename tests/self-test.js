@@ -11,117 +11,117 @@ uTest.TEST_GROUP({ name: "SelfTests",
 });
 
 uTest.TEST({ group: "SelfTests", name: "Clone",
-   run: function (uTest) {
-      uTest.CHECK(Object.getPrototypeOf(this.myTest) === uTest);
-      uTest.CHECK(this.myTest._getTestCount() === 0);
+   run: function () {
+      this.uTest.CHECK(Object.getPrototypeOf(this.myTest) === uTest);
+      this.uTest.CHECK(this.myTest._getTestCount() === 0);
    },
 });
 
 uTest.TEST({ group: "SelfTests", name: "Logging",
-   run: function (uTest) {
+   run: function () {
 
       this.myTest._logging = false;
       this.myTest.enableLogging();
-      uTest.CHECK(this.myTest._logging);
+      this.uTest.CHECK(this.myTest._logging);
 
       this.myTest._logging = true;
       this.myTest.disableLogging();
-      uTest.CHECK_EQUAL(this.myTest._logging, false);
+      this.uTest.CHECK_EQUAL(this.myTest._logging, false);
 
       this.myTest._verbose = false;
       this.myTest.enableVerboseLogging();
-      uTest.CHECK(this.myTest._verbose);
+      this.uTest.CHECK(this.myTest._verbose);
 
       this.myTest._verbose = true;
       this.myTest.disableVerboseLogging();
-      uTest.CHECK_EQUAL(this.myTest._verbose, false);
+      this.uTest.CHECK_EQUAL(this.myTest._verbose, false);
    },
 });
 
 uTest.TEST({ group: "SelfTests", name: "PassingChecks",
-   run: function (uTest) {
+   run: function () {
 
       this.myTest.TEST_GROUP({ name: "PassingChecksGroup" });
 
       this.myTest.TEST({ group: "PassingChecksGroup", name: "Test",
-         run: function (uTest) {
-            uTest.BYTES_EQUAL(0x8f, 0x8f);
-            uTest.CHECK(true);
-            uTest.CHECK_EQUAL(true, true);
-            uTest.CHECK_TEXT(1 === 1, "When does 1 !== 1?");
-            uTest.DOUBLES_EQUAL(2.1, 2.2, 0.100001);
-            uTest.LONGS_EQUAL(2, 2);
-            uTest.STRCMP_EQUAL("one", "one");
+         run: function () {
+            this.uTest.BYTES_EQUAL(0x8f, 0x8f);
+            this.uTest.CHECK(true);
+            this.uTest.CHECK_EQUAL(true, true);
+            this.uTest.CHECK_TEXT(1 === 1, "When does 1 !== 1?");
+            this.uTest.DOUBLES_EQUAL(2.1, 2.2, 0.100001);
+            this.uTest.LONGS_EQUAL(2, 2);
+            this.uTest.STRCMP_EQUAL("one", "one");
          },
       });
 
       this.myTest.runAllTests();
 
-      uTest.CHECK(this.myTest._getTestCount() === 1);
-      uTest.CHECK(this.myTest._failCount      === 0);
-      uTest.CHECK(this.myTest._runCount       === 1);
-      uTest.CHECK(this.myTest._checkCount     === 7);
+      this.uTest.CHECK(this.myTest._getTestCount() === 1);
+      this.uTest.CHECK(this.myTest._failCount      === 0);
+      this.uTest.CHECK(this.myTest._runCount       === 1);
+      this.uTest.CHECK(this.myTest._checkCount     === 7);
    },
 });
 
 uTest.TEST({ group: "SelfTests", name: "FailingChecks",
-   run: function (uTest) {
+   run: function () {
 
       this.myTest.TEST_GROUP({ name: "FailingChecksGroup" });
 
       this.myTest.TEST({ group: "FailingChecksGroup", name: "BYTES_EQUAL",
-         run: function (uTest) {
-            uTest.BYTES_EQUAL(0x8f, 0x90);
+         run: function () {
+            this.uTest.BYTES_EQUAL(0x8f, 0x90);
          },
       });
 
       this.myTest.TEST({ group: "FailingChecksGroup", name: "CHECK",
-         run: function (uTest) {
-            uTest.CHECK(false);
+         run: function () {
+            this.uTest.CHECK(false);
          },
       });
 
       this.myTest.TEST({ group: "FailingChecksGroup", name: "CHECK_EQUAL",
-         run: function (uTest) {
-            uTest.CHECK_EQUAL(true, false);
+         run: function () {
+            this.uTest.CHECK_EQUAL(true, false);
          },
       });
 
       this.myTest.TEST({ group: "FailingChecksGroup", name: "CHECK_TEXT",
-         run: function (uTest) {
-            uTest.CHECK_TEXT(1 === 0, "1 should not equal 0");
+         run: function () {
+            this.uTest.CHECK_TEXT(1 === 0, "1 should not equal 0");
          },
       });
 
       this.myTest.TEST({ group: "FailingChecksGroup", name: "DOUBLES_EQUAL",
-         run: function (uTest) {
-            uTest.DOUBLES_EQUAL(2.1, 2.3, 0.10001);
+         run: function () {
+            this.uTest.DOUBLES_EQUAL(2.1, 2.3, 0.10001);
          },
       });
 
       this.myTest.TEST({ group: "FailingChecksGroup", name: "LONGS_EQUAL",
-         run: function (uTest) {
-            uTest.LONGS_EQUAL(5, 6);
+         run: function () {
+            this.uTest.LONGS_EQUAL(5, 6);
          },
       });
 
       this.myTest.TEST({ group: "FailingChecksGroup", name: "STRCMP_EQUAL",
-         run: function (uTest) {
-            uTest.STRCMP_EQUAL("one", "two");
+         run: function () {
+            this.uTest.STRCMP_EQUAL("one", "two");
          },
       });
 
       this.myTest.TEST({ group: "FailingChecksGroup", name: "FAIL",
-         run: function (uTest) {
-            uTest.FAIL("Fail me!");
+         run: function () {
+            this.uTest.FAIL("Fail me!");
          },
       });
 
       this.myTest.runAllTests();
 
-      uTest.CHECK(this.myTest._getTestCount() === 8);
-      uTest.CHECK(this.myTest._failCount      === 8);
-      uTest.CHECK(this.myTest._runCount       === 8);
-      uTest.CHECK(this.myTest._checkCount     === 8);
+      this.uTest.CHECK(this.myTest._getTestCount() === 8);
+      this.uTest.CHECK(this.myTest._failCount      === 8);
+      this.uTest.CHECK(this.myTest._runCount       === 8);
+      this.uTest.CHECK(this.myTest._checkCount     === 8);
    },
 });
