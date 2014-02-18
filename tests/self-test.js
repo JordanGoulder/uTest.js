@@ -125,3 +125,62 @@ uTest.TEST({ group: "SelfTests", name: "FailingChecks",
       this.uTest.CHECK(this.myTest._checkCount     === 8);
    },
 });
+
+uTest.TEST({ group: "SelfTests", name: "LONGS_EQUAL",
+   run: function () {
+      this.myTest.TEST_GROUP({ name: "LONGS_EQUAL_Group" });
+
+      this.myTest.TEST({ group: "LONGS_EQUAL_Group", name: "LONGS_EQUAL_Pass",
+         run: function () {
+            this.uTest.LONGS_EQUAL(0, 0);
+            this.uTest.LONGS_EQUAL(1, 1);
+            this.uTest.LONGS_EQUAL(1, 1.1);
+            this.uTest.LONGS_EQUAL(-1, -1);
+            this.uTest.LONGS_EQUAL(-1, -1.1);
+            this.uTest.LONGS_EQUAL(Number.MAX_VALUE, Number.MAX_VALUE);
+            this.uTest.LONGS_EQUAL(Number.MIN_VALUE, Number.MIN_VALUE);
+         }
+      });
+
+      this.myTest.TEST_GROUP({ name: "LONGS_EQUAL_Fail_Group" });
+
+      this.myTest.TEST({ group: "LONGS_EQUAL_Fail_Group", name: "LONGS_EQUAL_Fail_1",
+         run: function () {
+            this.uTest.LONGS_EQUAL(1, 2);
+         }
+      });
+
+      this.myTest.TEST({ group: "LONGS_EQUAL_Fail_Group", name: "LONGS_EQUAL_Fail_2",
+         run: function () {
+            this.uTest.LONGS_EQUAL(1, 0.1);
+         }
+      });
+
+      this.myTest.TEST({ group: "LONGS_EQUAL_Fail_Group", name: "LONGS_EQUAL_Fail_3",
+         run: function () {
+            this.uTest.LONGS_EQUAL(-1, -2);
+         }
+      });
+
+      this.myTest.TEST({ group: "LONGS_EQUAL_Fail_Group", name: "LONGS_EQUAL_Fail_4",
+         run: function () {
+            this.uTest.LONGS_EQUAL(-2, -1.1);
+         }
+      });
+
+      this.myTest.TEST({ group: "LONGS_EQUAL_Fail_Group", name: "LONGS_EQUAL_Fail_5",
+         run: function () {
+            this.uTest.LONGS_EQUAL(Number.MAX_VALUE, Number.MIN_VALUE);
+         }
+      });
+
+
+      this.myTest.runTest("LONGS_EQUAL_Pass");
+      this.uTest.CHECK(this.myTest._runCount    === 1);
+      this.uTest.CHECK(this.myTest._failCount   === 0);
+
+      this.myTest.runTestGroup("LONGS_EQUAL_Fail_Group");
+      this.uTest.CHECK(this.myTest._runCount    === 5);
+      this.uTest.CHECK(this.myTest._failCount   === 5);
+   },
+});

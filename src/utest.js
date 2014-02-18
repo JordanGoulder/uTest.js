@@ -68,7 +68,7 @@ var uTest = {
 
       this._checkCount++;
 
-      if (Math.floor(expected) !== Math.floor(actual)) {
+      if (this._toInt(expected) !== this._toInt(actual)) {
          errorString = this._buildErrorString() +  "\texpected <" + Math.floor(expected)  + ">\n" +
                                                    "\tbut was  <" + Math.floor(actual)    + ">";
          this._throwTestError(errorString);
@@ -368,5 +368,9 @@ var uTest = {
             throw ex;
          }
       }
+   },
+
+   _toInt: function (num) {
+      return (num < 0) ? Math.ceil(num) : Math.floor(num);
    }
 };
