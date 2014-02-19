@@ -210,6 +210,10 @@ define (["../../src/uTest"], function (uTest) {
          this.myTest.runTest("TestWithoutGroup");
          this.uTest.CHECK(this.myTest._runCount    === 1);
          this.uTest.CHECK(this.myTest._failCount   === 0);
+
+         this.myTest.runAllTests();
+         this.uTest.CHECK(this.myTest._runCount    === 1);
+         this.uTest.CHECK(this.myTest._failCount   === 0);
       }
 
    });
