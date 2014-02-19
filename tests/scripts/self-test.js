@@ -197,7 +197,7 @@ define (["../../src/uTest"], function (uTest) {
 
    });
 
-   uTest.TEST({ group: "SelfTests", name: "WithoutTestGroup",
+   uTest.TEST({ group: "SelfTests", name: "UseTestWithoutGroup",
 
       run: function () {
 
