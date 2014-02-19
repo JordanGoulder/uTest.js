@@ -1,4 +1,4 @@
-require(["../../src/utest", "self-test"], function (uTest) {
+require(["../../src/uTest", "self-test"], function (uTest) {
 
    // Add a couple checks outside of tests to make sure it
    // doesn't cause problems

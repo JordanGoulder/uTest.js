@@ -1,4 +1,4 @@
-define (["../../src/utest"], function (uTest) {
+define (["../../src/uTest"], function (uTest) {
 
    uTest.TEST_GROUP({ name: "SelfTests",
 
