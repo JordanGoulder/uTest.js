@@ -7,7 +7,7 @@ A unit test framework for JavaScript modeled after [cppUTest](http://cpputest.gi
 * [Defining Tests](#definingTests)
 * [Assertions](#assertions)
 * [Setup and Teardown](#setupAndTeardown)
-* [More Info](#moreInfo)
+* [More Info](#markdown-header-more-info)
 
 ## <a name="gettingStarted"></a>Getting Started
 [top](#top)
@@ -21,5 +21,5 @@ A unit test framework for JavaScript modeled after [cppUTest](http://cpputest.gi
 ## <a name="setupAndTeardown"></a>Setup and Teardown
 [top](#top)
 
-## <a name="moreInfo"></a>More Info
+## More Info
 [top](#top)
