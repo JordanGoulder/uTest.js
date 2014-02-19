@@ -190,7 +190,7 @@ define (["../../src/utest"], function (uTest) {
    uTest.TEST({ group: "SelfTests", name: "CHECK_TRHOWS",
 
       run: function () {
-         uTest.CHECK_THROWS("ReferenceError", function () {
+         uTest.CHECK_THROW("ReferenceError", function () {
             callARandomNonExistingFunction();
          });
       }

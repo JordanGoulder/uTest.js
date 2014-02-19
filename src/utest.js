@@ -51,7 +51,7 @@ define({
       }
    },
 
-   CHECK_THROWS: function (exception, func) {
+   CHECK_THROW: function (exception, func) {
       var   errorString,
             thrown = false;
 
