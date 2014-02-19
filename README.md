@@ -1,25 +1,25 @@
-# <a name="top"></a>uTest.js
+# uTest.js
 
 A unit test framework for JavaScript modeled after [cppUTest](http://cpputest.github.io).
 
 ## Table of Contents
-* [Getting Started](#gettingStarted)
-* [Defining Tests](#definingTests)
-* [Assertions](#assertions)
-* [Setup and Teardown](#setupAndTeardown)
+* [Getting Started](#markdown-header-getting-started)
+* [Defining Tests](#markdown-header-defining-tests)
+* [Assertions](#markdown-header-assertions)
+* [Setup and Teardown](#markdown-header-setup-and-teardown)
 * [More Info](#markdown-header-more-info)
 
 ## <a name="gettingStarted"></a>Getting Started
-[top](#top)
+[top](#markdown-header-utest.js)
 
 ## <a name="definingTests"></a>Defining Tests
-[top](#top)
+[top](#markdown-header-utest.js)
 
 ## <a name="assertions"></a>Assertions
-[top](#top)
+[top](#markdown-header-utest.js)
 
 ## <a name="setupAndTeardown"></a>Setup and Teardown
-[top](#top)
+[top](#markdown-header-utest.js)
 
 ## More Info
-[top](#top)
+[top](#markdown-header-utest.js)
