@@ -6,6 +6,7 @@ define({
    },
 
    TEST: function (test) {
+      test.group = test.group || "_default";
       test.uTest = this;
       test.ignore = false;
       this._testGroups[test.group].tests.push(test);
@@ -190,7 +191,7 @@ define({
    _currentTest:  "",
 
    _init: function () {
-      this._testGroups     = {};
+      this._testGroups     = { "_default": { name: "_default", tests: [ ] } };
       this._failCount      = 0;
       this._runCount       = 0;
       this._checkCount     = 0;
@@ -273,7 +274,11 @@ define({
       }
 
       errorString += "error: Failure in TEST(";
-      errorString += this._currentGroup + ", ";
+
+      if (this._currentGroup !== "_default") {
+         errorString += this._currentGroup + ", ";
+      }
+
       errorString += this._currentTest + ")\n";
 
       return errorString;

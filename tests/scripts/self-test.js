@@ -197,4 +197,21 @@ define (["../../src/uTest"], function (uTest) {
 
    });
 
+   uTest.TEST({ group: "SelfTests", name: "WithoutTestGroup",
+
+      run: function () {
+
+         this.myTest.TEST({name: "TestWithoutGroup",
+            run: function () {
+               this.uTest.CHECK(true);
+            }
+         });
+
+         this.myTest.runTest("TestWithoutGroup");
+         this.uTest.CHECK(this.myTest._runCount    === 1);
+         this.uTest.CHECK(this.myTest._failCount   === 0);
+      }
+
+   });
+
 });
