@@ -51,6 +51,32 @@ define({
       }
    },
 
+   CHECK_THROWS: function (exception, func) {
+      var   errorString,
+            thrown = false;
+
+      this._checkCount++;
+
+      try {
+         func();
+      } catch (ex) {
+         if (ex.name === exception) {
+            thrown = true;
+         }
+         else
+         {
+            throw ex;
+         }
+      }
+
+      if (!thrown) {
+            errorString = this._buildErrorString() +  "\texpected " + exception +
+                                                      " was not thrown";
+
+            this._throwTestError(errorString);
+      }
+   },
+
    STRCMP_EQUAL: function (expected, actual) {
       var errorString;
 

@@ -184,6 +184,17 @@ define (["../../src/utest"], function (uTest) {
          this.myTest.runTestGroup("LONGS_EQUAL_Fail_Group");
          this.uTest.CHECK(this.myTest._runCount    === 5);
          this.uTest.CHECK(this.myTest._failCount   === 5);
-      },
+      }
    });
+
+   uTest.TEST({ group: "SelfTests", name: "CHECK_TRHOWS",
+
+      run: function () {
+         uTest.CHECK_THROWS("ReferenceError", function () {
+            callARandomNonExistingFunction();
+         });
+      }
+
+   });
+
 });
