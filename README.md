@@ -10,16 +10,16 @@ A unit test framework for JavaScript modeled after [cppUTest](http://cpputest.gi
 * [More Info](#markdown-header-more-info)
 
 ## Getting Started
-[top](#markdown-header-utest.js)
+[top](#markdown-header-utestjs)
 
 ## Defining Tests
-[top](#markdown-header-utest.js)
+[top](#markdown-header-utestjs)
 
 ## Assertions
-[top](#markdown-header-utest.js)
+[top](#markdown-header-utestjs)
 
 ## Setup and Teardown
-[top](#markdown-header-utest.js)
+[top](#markdown-header-utestjs)
 
 ## More Info
-[top](#markdown-header-utest-js)
+[top](#markdown-header-utestjs)
