@@ -36,7 +36,7 @@ uTest.TEST({ group: "SelfTests", name: "Logging",
 
       this.myTest._verbose = true;
       this.myTest.disableVerboseLogging();
-      this.uTest.CHECK_EQUAL(this.myTest._verbose, false);      }
+      this.uTest.CHECK_EQUAL(this.myTest._verbose, false);
    }
 });
 
