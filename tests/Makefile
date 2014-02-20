@@ -1,5 +1,9 @@
 
-all: lint self-test-app-min.js
+all: release
+
+release: lint self-test-app-min.js
+
+debug: lint self-test-app-debug.js
 
 .PHONY: lint
 lint:
@@ -8,10 +12,14 @@ lint:
 self-test-app-min.js: self-test-app.js
 	uglifyjs scripts/self-test-app.js -o scripts/self-test-app-min.js
 
+self-test-app-debug.js:
+	browserify --debug scripts/main.js -o scripts/self-test-app.js
+
 self-test-app.js:
 	browserify scripts/main.js -o scripts/self-test-app.js
 
 .PHONY: clean
 clean:
 	rm -f scripts/self-test-app.js
+	rm -f scripts/self-test-app-debug.js
 	rm -f scripts/self-test-app-min.js
