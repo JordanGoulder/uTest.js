@@ -237,6 +237,7 @@ uTest.TEST({ group: "SelfTests", name: "BYTES_EQUAL",
       this.uTest.CHECK(this.myTest._failCount   === 4);
    }
 });
+
 uTest.TEST({ group: "SelfTests", name: "CHECK_TRHOWS",
 
    run: function () {
