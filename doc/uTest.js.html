@@ -1,4 +1,31 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: uTest.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: uTest.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
    A unit test framework for JavaScript modeled after cppUTest.
    @module uTest
 */
@@ -9,14 +36,14 @@ module.exports = {
 
       @instance 
       @param {object} group - A group object that has the follwing properties:
-                              <dl>
-                                 <dt>name</dt>
-                                 <dd>The name of the group</dd>
-                                 <dt>setup <em>(optional)</em></dt>
-                                 <dd>The setup function that is run before each test in the group</dd>
-                                 <dt>teardown <em>(optional)</em></dt>
-                                 <dd>The teardown function that is run after each test in the group</dd>
-                              </dl>
+                              &lt;dl>
+                                 &lt;dt>name&lt;/dt>
+                                 &lt;dd>The name of the group&lt;/dd>
+                                 &lt;dt>setup &lt;em>(optional)&lt;/em>&lt;/dt>
+                                 &lt;dd>The setup function that is run before each test in the group&lt;/dd>
+                                 &lt;dt>teardown &lt;em>(optional)&lt;/em>&lt;/dt>
+                                 &lt;dd>The teardown function that is run after each test in the group&lt;/dd>
+                              &lt;/dl>
    */
    TEST_GROUP: function (group) {
       group.tests = [ ];
@@ -28,14 +55,14 @@ module.exports = {
 
       @instance
       @param {object} test - A test object that has the follwing properties:
-                              <dl>
-                                 <dt>group <em>(optional)</em></dt>
-                                 <dd>The name of the group in which the test belongs</dd>
-                                 <dt>name</dt>
-                                 <dd>The name of the test</dd>
-                                 <dt>run</dt>
-                                 <dd>The function that is run to perform the test</dd>
-                              </dl>
+                              &lt;dl>
+                                 &lt;dt>group &lt;em>(optional)&lt;/em>&lt;/dt>
+                                 &lt;dd>The name of the group in which the test belongs&lt;/dd>
+                                 &lt;dt>name&lt;/dt>
+                                 &lt;dd>The name of the test&lt;/dd>
+                                 &lt;dt>run&lt;/dt>
+                                 &lt;dd>The function that is run to perform the test&lt;/dd>
+                              &lt;/dl>
    */
    TEST: function (test) {
       test.group = test.group || "_default";
@@ -49,14 +76,14 @@ module.exports = {
 
       @instance
       @param {object} test - A test object that has the follwing properties:
-                              <dl>
-                                 <dt>group <em>(optional)</em></dt>
-                                 <dd>The name of the group in which the test belongs</dd>
-                                 <dt>name</dt>
-                                 <dd>The name of the test</dd>
-                                 <dt>run</dt>
-                                 <dd>The function that is run to perform the test</dd>
-                              </dl>
+                              &lt;dl>
+                                 &lt;dt>group &lt;em>(optional)&lt;/em>&lt;/dt>
+                                 &lt;dd>The name of the group in which the test belongs&lt;/dd>
+                                 &lt;dt>name&lt;/dt>
+                                 &lt;dd>The name of the test&lt;/dd>
+                                 &lt;dt>run&lt;/dt>
+                                 &lt;dd>The function that is run to perform the test&lt;/dd>
+                              &lt;/dl>
     */
    IGNORE_TEST: function (test) {
       test.uTest = this;
@@ -111,8 +138,8 @@ module.exports = {
       this._checkCount++;
 
       if (expected !== actual) {
-         errorString = this._buildErrorString() +  "\texpected <" + expected  + ">\n" +
-                                                   "\tbut was  <" + actual    + ">";
+         errorString = this._buildErrorString() +  "\texpected &lt;" + expected  + ">\n" +
+                                                   "\tbut was  &lt;" + actual    + ">";
          this._throwTestError(errorString);
       }
    },
@@ -163,8 +190,8 @@ module.exports = {
       this._checkCount++;
 
       if (expected.toString() !== actual.toString()) {
-         errorString = this._buildErrorString() +  "\texpected <" + expected.toString()   + ">\n" +
-                                                   "\tbut was  <" + actual.toString()     + ">";
+         errorString = this._buildErrorString() +  "\texpected &lt;" + expected.toString()   + ">\n" +
+                                                   "\tbut was  &lt;" + actual.toString()     + ">";
          this._throwTestError(errorString);
       }
    },
@@ -182,8 +209,8 @@ module.exports = {
       this._checkCount++;
 
       if (this._toInt(expected) !== this._toInt(actual)) {
-         errorString = this._buildErrorString() +  "\texpected <" + Math.floor(expected)  + ">\n" +
-                                                   "\tbut was  <" + Math.floor(actual)    + ">";
+         errorString = this._buildErrorString() +  "\texpected &lt;" + Math.floor(expected)  + ">\n" +
+                                                   "\tbut was  &lt;" + Math.floor(actual)    + ">";
          this._throwTestError(errorString);
       }
    },
@@ -196,7 +223,7 @@ module.exports = {
       @param {number} actual - The actual 8-bit wide integer result
    */
    BYTES_EQUAL: function (expected, actual) {
-      this.LONGS_EQUAL(expected & 0xFF, actual & 0xFF);
+      this.LONGS_EQUAL(expected &amp; 0xFF, actual &amp; 0xFF);
    },
 
    /**
@@ -213,9 +240,9 @@ module.exports = {
       this._checkCount++;
 
       if (Math.abs(expected - actual) > tolerance) {
-         errorString = this._buildErrorString() +  "\texpected <" + expected  + ">\n"  +
-                                                   "\tbut was  <" + actual    + ">"    +
-                                                   " threshold was <" + tolerance + ">";
+         errorString = this._buildErrorString() +  "\texpected &lt;" + expected  + ">\n"  +
+                                                   "\tbut was  &lt;" + actual    + ">"    +
+                                                   " threshold was &lt;" + tolerance + ">";
          this._throwTestError(errorString);
       }
    },
@@ -324,7 +351,7 @@ module.exports = {
 
       tests = this._findTests(groupName, testName);
 
-      for (var i = 0; i < tests.length; i++) {
+      for (var i = 0; i &lt; tests.length; i++) {
 
          start = Date.now();
 
@@ -398,7 +425,7 @@ module.exports = {
 
          if ((groupName === null) || (name === groupName)) {
 
-            for (var i = 0; i < this._testGroups[name].tests.length; i++) {
+            for (var i = 0; i &lt; this._testGroups[name].tests.length; i++) {
 
                if ((testName === null) || (this._testGroups[name].tests[i].name == testName)) {
 
@@ -509,6 +536,29 @@ module.exports = {
    },
 
    _toInt: function (num) {
-      return (num < 0) ? Math.ceil(num) : Math.floor(num);
+      return (num &lt; 0) ? Math.ceil(num) : Math.floor(num);
    }
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-uTest.html">uTest</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha4</a> on Thu Feb 20 2014 15:21:33 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
