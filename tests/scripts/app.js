@@ -610,6 +610,56 @@ uTest.TEST({ group: "SelfTests", name: "LONGS_EQUAL",
    }
 });
 
+uTest.TEST({ group: "SelfTests", name: "BYTES_EQUAL",
+   run: function () {
+      this.myTest.TEST_GROUP({ name: "BYTES_EQUAL_Group" });
+
+      this.myTest.TEST({ group: "BYTES_EQUAL_Group", name: "BYTES_EQUAL_Pass",
+         run: function () {
+            this.uTest.BYTES_EQUAL(0, 0);
+            this.uTest.BYTES_EQUAL(1, 1);
+            this.uTest.BYTES_EQUAL(1, 1.1);
+            this.uTest.BYTES_EQUAL(-1, -1);
+            this.uTest.BYTES_EQUAL(-1, -1.1);
+            this.uTest.BYTES_EQUAL(0x1AA, 0xAA);
+         }
+      });
+
+      this.myTest.TEST_GROUP({ name: "BYTES_EQUAL_Fail_Group" });
+
+      this.myTest.TEST({ group: "BYTES_EQUAL_Fail_Group", name: "BYTES_EQUAL_Fail_1",
+         run: function () {
+            this.uTest.BYTES_EQUAL(1, 2);
+         }
+      });
+
+      this.myTest.TEST({ group: "BYTES_EQUAL_Fail_Group", name: "BYTES_EQUAL_Fail_2",
+         run: function () {
+            this.uTest.BYTES_EQUAL(1, 0.1);
+         }
+      });
+
+      this.myTest.TEST({ group: "BYTES_EQUAL_Fail_Group", name: "BYTES_EQUAL_Fail_3",
+         run: function () {
+            this.uTest.BYTES_EQUAL(-1, -2);
+         }
+      });
+
+      this.myTest.TEST({ group: "BYTES_EQUAL_Fail_Group", name: "BYTES_EQUAL_Fail_4",
+         run: function () {
+            this.uTest.BYTES_EQUAL(-2, -1.1);
+         }
+      });
+
+      this.myTest.runTest("BYTES_EQUAL_Pass");
+      this.uTest.CHECK(this.myTest._runCount    === 1);
+      this.uTest.CHECK(this.myTest._failCount   === 0);
+
+      this.myTest.runTestGroup("BYTES_EQUAL_Fail_Group");
+      this.uTest.CHECK(this.myTest._runCount    === 4);
+      this.uTest.CHECK(this.myTest._failCount   === 4);
+   }
+});
 uTest.TEST({ group: "SelfTests", name: "CHECK_TRHOWS",
 
    run: function () {
