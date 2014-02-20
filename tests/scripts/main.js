@@ -1,11 +1,11 @@
-require(["../../src/uTest", "self-test"], function (uTest) {
+require("./self-test");
+var uTest = require("../../src/uTest");
 
-   // Add a couple checks outside of tests to make sure it
-   // doesn't cause problems
-   uTest.CHECK(true);
-   uTest.STRCMP_EQUAL("hello", "hello");
+// Add a couple checks outside of tests to make sure it
+// doesn't cause problems
+uTest.CHECK(true);
+uTest.STRCMP_EQUAL("hello", "hello");
 
-   uTest.enableVerboseLogging();
+uTest.enableVerboseLogging();
 
-   uTest.runAllTests();
-});
+uTest.runAllTests();
