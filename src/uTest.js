@@ -511,4 +511,4 @@ module.exports = {
    _toInt: function (num) {
       return (num < 0) ? Math.ceil(num) : Math.floor(num);
    }
-}
+};
