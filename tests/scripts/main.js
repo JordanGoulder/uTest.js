@@ -1,4 +1,4 @@
-require("./self-test");
+require("./tests");
 var uTest = require("../../src/uTest");
 
 // Add a couple checks outside of tests to make sure it
