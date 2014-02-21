@@ -286,7 +286,7 @@ module.exports = {
       }
    },
 
-   _testGroups:   {},
+   _testGroups:   { "_default": { name: "_default", tests: [ ] } },
    _failCount:    0,
    _runCount:     0,
    _checkCount:   0,
