@@ -9,6 +9,7 @@ JavaScript and hopefully make something useful too!
 ### Define a Test
 ```javascript
 // first-test.js
+
 var uTest = require('./uTest.js');
 
 uTest.TEST({ name: 'FirstTest',
@@ -21,6 +22,7 @@ uTest.TEST({ name: 'FirstTest',
 ### Create a Test Runner
 ```javascript
 // test-runner.js
+
 require('./first-test.js');
 var uTest = require('./uTest.js');
 
@@ -28,7 +30,7 @@ uTest.runAllTests();
 ```
 
 ### Run the Test
-```bash
+```
 $ node test-runner.js
 ./first-test.js:6:18: error: Failure in TEST(FirstTest)
 	Fail me!
