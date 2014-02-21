@@ -86,7 +86,9 @@ $ browserify test-runner.js -o bundle.js
 
 ## Running Tests
 * **runAllTests ()** - Run all the tests that are currently defined.
+
 * **runTestGroup (groupName)** - Run a specific test group.
+
 * **runTest (test)** - Run a specific test.
     * The **test** parameter can be a string or an object
     * If **test** is a string then all the tests with that name will be run
