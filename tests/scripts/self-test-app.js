@@ -124,7 +124,7 @@ module.exports = {
    },
 
    /**
-      Check for equality between two entities using ===
+      Check for equality between two entities using strict equality (===)
 
       @instance
       @param {any} expected - The expected result
@@ -136,6 +136,25 @@ module.exports = {
       this._checkCount++;
 
       if (expected !== actual) {
+         errorString = this._buildErrorString() +  "\texpected <" + expected  + ">\n" +
+                                                   "\tbut was  <" + actual    + ">";
+         this._throwTestError(errorString);
+      }
+   },
+
+   /**
+      Check for equality between two entities using loose equality (==)
+
+      @instance
+      @param {any} expected - The expected result
+      @param {any} actual - The actual result
+   */
+   CHECK_LOOSE_EQUAL: function (expected, actual) {
+      var errorString;
+
+      this._checkCount++;
+
+      if (expected != actual) {
          errorString = this._buildErrorString() +  "\texpected <" + expected  + ">\n" +
                                                    "\tbut was  <" + actual    + ">";
          this._throwTestError(errorString);
@@ -602,7 +621,7 @@ uTest.TEST_GROUP({ name: "SelfTests",
 
    setup: function (test) {
       test.myTest = uTest.clone();
-      test.myTest.disableLogging();
+//      test.myTest.disableLogging();
    },
 
    teardown: function (test) {
@@ -652,15 +671,16 @@ uTest.TEST({ group: "SelfTests", name: "PassingChecks",
             this.uTest.DOUBLES_EQUAL(2.1, 2.2, 0.100001);
             this.uTest.LONGS_EQUAL(2, 2);
             this.uTest.STRCMP_EQUAL("one", "one");
+            this.uTest.CHECK_LOOSE_EQUAL(1000, "1000");
          }
       });
 
       this.myTest.runAllTests();
 
-      this.uTest.CHECK(this.myTest._getTestCount() === 1);
-      this.uTest.CHECK(this.myTest._failCount      === 0);
-      this.uTest.CHECK(this.myTest._runCount       === 1);
-      this.uTest.CHECK(this.myTest._checkCount     === 7);
+      this.uTest.CHECK_EQUAL(1, this.myTest._getTestCount());
+      this.uTest.CHECK_EQUAL(0, this.myTest._failCount);
+      this.uTest.CHECK_EQUAL(1, this.myTest._runCount);
+      this.uTest.CHECK_EQUAL(8, this.myTest._checkCount);
    }
 });
 
@@ -687,9 +707,15 @@ uTest.TEST({ group: "SelfTests", name: "FailingChecks",
          }
       });
 
-      this.myTest.TEST({ group: "FailingChecksGroup", name: "CHECK_EQUAL_loose",
+      this.myTest.TEST({ group: "FailingChecksGroup", name: "CHECK_EQUAL_2",
          run: function () {
             this.uTest.CHECK_EQUAL(2, "2");
+         }
+      });
+
+      this.myTest.TEST({ group: "FailingChecksGroup", name: "CHECK_LOOSE_EQUAL",
+         run: function () {
+            this.uTest.CHECK_EQUAL(2, "3");
          }
       });
 
@@ -725,10 +751,10 @@ uTest.TEST({ group: "SelfTests", name: "FailingChecks",
 
       this.myTest.runAllTests();
 
-      this.uTest.CHECK(this.myTest._getTestCount() === 9);
-      this.uTest.CHECK(this.myTest._failCount      === 9);
-      this.uTest.CHECK(this.myTest._runCount       === 9);
-      this.uTest.CHECK(this.myTest._checkCount     === 9);
+      this.uTest.CHECK(this.myTest._getTestCount() === 10);
+      this.uTest.CHECK(this.myTest._failCount      === 10);
+      this.uTest.CHECK(this.myTest._runCount       === 10);
+      this.uTest.CHECK(this.myTest._checkCount     === 10);
    }
 });
 

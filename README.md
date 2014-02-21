@@ -60,7 +60,8 @@ $ browserify test-runner.js -o bundle.js
 ## Adding Assertions
 * **CHECK (condition)** - Check a boolean result
 * **CHECK_TEXT (condition, text)** - Check a boolean result and print text on failure
-* **CHECK_EQUAL (expected, actual)** - Check for equality between two entities using ===
+* **CHECK_EQUAL (expected, actual)** - Check for equality between two entities using strict equality (===)
+* **CHECK_LOOSE_EQUAL (expected, actual)** - Check for equality between two entities using loose equality (==)
 * **CHECK_THROW (exception, func)** - Check for an exception thrown by calling a specified function
 * **STRCMP_EQUAL (expected, actual)** - Check for equality using expected.toString() === actual.toString()
 * **LONGS_EQUAL (expected, actual)** - Compare two integers
