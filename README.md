@@ -71,17 +71,14 @@ $ browserify test-runner.js -o bundle.js
 * **TEST_GROUP (group)** - Define a test group
     * The group parameter is an object with the following properites:
         * name {string} - The name of the group
-        * setup {function} _(optional)_ - The setup function is run before each
-				test in the group
-        * teardown {function} _(optional)_ - The teardown function is run after
-				each test in the group
+        * setup {function} _(optional)_ - The setup function is run before each test in the group
+        * teardown {function} _(optional)_ - The teardown function is run after each test in the group
 
 * **TEST (test)** - Define a test
     * The test parameter is an object with the followig properties:
         * group {string} _(optional)_ - The name of the group in which the test belongs.
         * name {string} - The name of the test.
         * run {function} - The function that is run to perform the test.
-
 
 * **IGNORE_TEST (test)** - Define a test that will be ignored.
     * This is a quick way to disable a test without removing the code.
