@@ -1,32 +1,31 @@
+/*
+   The MIT License (MIT)
+
+   Copyright (c) 2014 Jordan Goulder, All Rights Reserved.
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in all
+   copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+*/
+
 /**
    A unit test framework for JavaScript modeled after cppUTest.
    @module uTest
 */
-
-/*
-The MIT License (MIT)
-
-Copyright (c) 2014 Jordan Goulder, All Rights Reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
-
 module.exports = {
 
    /**
@@ -263,30 +262,74 @@ module.exports = {
       return newObj;
    },
 
+   /**
+      Enable logging. This is enabled by default.
+
+      @instance
+   */
    enableLogging: function () {
       this._logging = true;
    },
 
+   /**
+      Disable logging.
+
+      @instance
+   */
    disableLogging: function () {
       this._logging = false;
    },
 
+   /**
+      Enable verbose logging. This is disabled by default.
+
+      @instance
+   */
    enableVerboseLogging: function () {
       this._verbose = true;
    },
 
+   /**
+      Disable verbose logging.
+
+      @instance
+   */
    disableVerboseLogging: function () {
       this._verbose = false;
    },
 
+   /**
+      Run all the tests that are currently defined.
+
+      @instance
+   */
    runAllTests: function () {
       this._run(null, null);
    },
 
+   /**
+      Run a specific test group.
+
+      @instance
+      @param {string} groupName - The name of the group to run
+   */
    runTestGroup: function (groupName) {
       this._run(groupName, null);
    },
 
+   /** 
+      Run a specific test.
+
+      @instance
+      @param {string|object} test - If test is a string then run all the tests with that name,
+                                    otherwise, test should be an object with the follwing properties:
+                                    <dl>
+                                       <dt>group</dt>
+                                       <dd>The name of the group in which the test belongs</dd>
+                                       <dt>name</dt>
+                                       <dd>The name of the test to run</dd>
+                                    </dl>
+   */
    runTest: function (test) {
       var   groupName = null,
             testName = null;
