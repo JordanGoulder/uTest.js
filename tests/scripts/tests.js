@@ -89,6 +89,12 @@ uTest.TEST({ group: "SelfTests", name: "FailingChecks",
          }
       });
 
+      this.myTest.TEST({ group: "FailingChecksGroup", name: "CHECK_EQUAL_loose",
+         run: function () {
+            this.uTest.CHECK_EQUAL(2, "2");
+         }
+      });
+
       this.myTest.TEST({ group: "FailingChecksGroup", name: "CHECK_TEXT",
          run: function () {
             this.uTest.CHECK_TEXT(1 === 0, "1 should not equal 0");
@@ -121,10 +127,10 @@ uTest.TEST({ group: "SelfTests", name: "FailingChecks",
 
       this.myTest.runAllTests();
 
-      this.uTest.CHECK(this.myTest._getTestCount() === 8);
-      this.uTest.CHECK(this.myTest._failCount      === 8);
-      this.uTest.CHECK(this.myTest._runCount       === 8);
-      this.uTest.CHECK(this.myTest._checkCount     === 8);
+      this.uTest.CHECK(this.myTest._getTestCount() === 9);
+      this.uTest.CHECK(this.myTest._failCount      === 9);
+      this.uTest.CHECK(this.myTest._runCount       === 9);
+      this.uTest.CHECK(this.myTest._checkCount     === 9);
    }
 });
 
