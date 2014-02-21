@@ -40,7 +40,7 @@ $ node test-runner.js
 Errors (1 failure, 1 test, 1 ran, 1 check, 0 ignored, 0 filtered out, 36 ms)
 ```
 
-### Or Run the Test in a Browser
+### Run the Test in a Browser
 ```text
 $ browserify test-runner.js -o bundle.js
 ```
