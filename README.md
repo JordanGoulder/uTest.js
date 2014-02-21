@@ -57,7 +57,7 @@ $ browserify test-runner.js -o bundle.js
 </html>
 ```
 
-## Assertions
+## Adding Assertions
 * **CHECK (condition)** - Check a boolean result
 * **CHECK_TEXT (condition, text)** - Check a boolean result and print text on failure
 * **CHECK_EQUAL (expected, actual)** - Check for equality between two entities using ===
@@ -86,7 +86,9 @@ $ browserify test-runner.js -o bundle.js
 
 ## Running Tests
 * **runAllTests ()** - Run all the tests that are currently defined.
+
 * **runTestGroup (groupName)** - Run a specific test group.
+
 * **runTest (test)** - Run a specific test.
     * The **test** parameter can be a string or an object
     * If **test** is a string then all the tests with that name will be run
