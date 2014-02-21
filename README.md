@@ -30,7 +30,7 @@ uTest.runAllTests();
 ```
 
 ### Run the Test
-```
+```text
 $ node test-runner.js
 ./first-test.js:6:18: error: Failure in TEST(FirstTest)
 	Fail me!
