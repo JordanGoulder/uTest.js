@@ -13,7 +13,7 @@ self-test-app-min.js: self-test-app.js
 	uglifyjs scripts/self-test-app.js -o scripts/self-test-app-min.js
 
 self-test-app-debug.js:
-	browserify --debug scripts/main.js -o scripts/self-test-app.js
+	browserify --debug scripts/main.js -o scripts/self-test-app-debug.js
 
 self-test-app.js:
 	browserify scripts/main.js -o scripts/self-test-app.js
