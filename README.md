@@ -6,14 +6,34 @@ The goal of this project is to help me gain experience programming
 JavaScript and hopefully make something useful too!
 
 ## Getting Started
-### Your First Test
-```
+### Define a Test
+```javascript
 // first-test.js
+var uTest = require('./uTest.js');
+
 uTest.TEST({ name: 'FirstTest',
    run: function() {
       this.uTest.FAIL("Fail me!");
    }
 });
+```
+
+### Create a Test Runner
+```javascript
+// test-runner.js
+require('./first-test.js');
+var uTest = require('./uTest.js');
+
+uTest.runAllTests();
+```
+
+### Run the Test
+```bash
+$ node test-runner.js
+./first-test.js:6:18: error: Failure in TEST(FirstTest)
+	Fail me!
+
+Errors (1 failure, 1 test, 1 ran, 1 check, 0 ignored, 0 filtered out, 14 ms)
 ```
 
 ## Defining Tests and Test Groups
