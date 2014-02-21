@@ -38,10 +38,17 @@ $ node test-runner.js
 Errors (1 failure, 1 test, 1 ran, 1 check, 0 ignored, 0 filtered out, 14 ms)
 ```
 
-## Defining Tests and Test Groups
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
 ## Assertions
+* CHECK (condition) - Check a boolean result
+* CHECK_TEXT (condition, text) - Check a boolean result and print text on failure
+* CHECK_EQUAL (expected, actual) - Check for equality between two entities using ===
+* CHECK_THROW (exception, func) - Check for an exception thrown by calling a specified function
+* STRCMP_EQUAL (expected, actual) - Check for equality using expected.toString() === actual.toString()
+* LONGS_EQUAL (expected, actual) - Compare two integers
+* BYTES_EQUAL (expected, actual) - Compare two 8-bit wide integers
+* DOUBLES_EQUAL (expected, actual, tolerance) - Compare two numbers with a given tolerance
+
+## Defining Tests and Test Groups
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ## Setup and Teardown
