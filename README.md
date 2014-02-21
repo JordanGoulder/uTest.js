@@ -12,7 +12,9 @@ JavaScript and hopefully make something useful too!
 
 var uTest = require('./uTest.js');
 
-uTest.TEST({ name: 'FirstTest',
+uTest.TEST_GROUP({ name: "FirstGroup" });
+
+uTest.TEST({ group: "FirstGroup", name: 'FirstTest',
    run: function() {
       this.uTest.FAIL("Fail me!");
    }
@@ -49,10 +51,21 @@ Errors (1 failure, 1 test, 1 ran, 1 check, 0 ignored, 0 filtered out, 14 ms)
 * DOUBLES_EQUAL (expected, actual, tolerance) - Compare two numbers with a given tolerance
 
 ## Defining Tests and Test Groups
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+* TEST_GROUP (group) - Define a test group
+    * The group parameter is an object with the following properites:
+        * name {string} - The name of the group
+        * setup {function} (optional) - The setup function is run before each
+				test in the group
+        * teardown {function} (optional) - The teardown function is run after
+				each test in the group
 
-## Setup and Teardown
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+* TEST (test) - Define a test
+    * The test parameter is an object with the followig properties:
+        * group {string} (optional) - The name of the group in which the test belongs.
+        * name {string} - The name of the test.
+        * run {function} - The function that is run to perform the test.
 
-## More Info
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+* IGNORE_TEST (test) - Define a test that will be ignored.
+    * This is a quick way to disable a test without removing the code.
+    * See definition of test above
