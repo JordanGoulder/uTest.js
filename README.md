@@ -58,31 +58,31 @@ $ browserify test-runner.js -o bundle.js
 ```
 
 ## Assertions
-* CHECK (condition) - Check a boolean result
-* CHECK_TEXT (condition, text) - Check a boolean result and print text on failure
-* CHECK_EQUAL (expected, actual) - Check for equality between two entities using ===
-* CHECK_THROW (exception, func) - Check for an exception thrown by calling a specified function
-* STRCMP_EQUAL (expected, actual) - Check for equality using expected.toString() === actual.toString()
-* LONGS_EQUAL (expected, actual) - Compare two integers
-* BYTES_EQUAL (expected, actual) - Compare two 8-bit wide integers
-* DOUBLES_EQUAL (expected, actual, tolerance) - Compare two numbers with a given tolerance
+* **CHECK (condition)** - Check a boolean result
+* **CHECK_TEXT (condition, text)** - Check a boolean result and print text on failure
+* **CHECK_EQUAL (expected, actual)** - Check for equality between two entities using ===
+* **CHECK_THROW (exception, func)** - Check for an exception thrown by calling a specified function
+* **STRCMP_EQUAL (expected, actual)** - Check for equality using expected.toString() === actual.toString()
+* **LONGS_EQUAL (expected, actual)** - Compare two integers
+* **BYTES_EQUAL (expected, actual)** - Compare two 8-bit wide integers
+* **DOUBLES_EQUAL (expected, actual, tolerance)** - Compare two numbers with a given tolerance
 
 ## Defining Tests and Test Groups
-* TEST_GROUP (group) - Define a test group
+* **TEST_GROUP (group)** - Define a test group
     * The group parameter is an object with the following properites:
         * name {string} - The name of the group
-        * setup {function} (optional) - The setup function is run before each
+        * setup {function} _(optional)_ - The setup function is run before each
 				test in the group
-        * teardown {function} (optional) - The teardown function is run after
+        * teardown {function} _(optional)_ - The teardown function is run after
 				each test in the group
 
-* TEST (test) - Define a test
+* **TEST (test)** - Define a test
     * The test parameter is an object with the followig properties:
-        * group {string} (optional) - The name of the group in which the test belongs.
+        * group {string} _(optional)_ - The name of the group in which the test belongs.
         * name {string} - The name of the test.
         * run {function} - The function that is run to perform the test.
 
 
-* IGNORE_TEST (test) - Define a test that will be ignored.
+* **IGNORE_TEST (test)** - Define a test that will be ignored.
     * This is a quick way to disable a test without removing the code.
     * See definition of test above
