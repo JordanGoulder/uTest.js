@@ -83,3 +83,13 @@ $ browserify test-runner.js -o bundle.js
 * **IGNORE_TEST (test)** - Define a test that will be ignored.
     * This is a quick way to disable a test without removing the code.
     * See definition of test above
+
+## Running Tests
+* **runAllTests ()** - Run all the tests that are currently defined.
+* **runTestGroup (groupName)** - Run a specific test group.
+* **runTest (test)** - Run a specific test.
+    * The **test** parameter can be a string or an object
+    * If **test** is a string then all the tests with that name will be run
+    * Otherwise, **test** should be an object with the following properties:
+        * group {string} - The name of the group in which the test belongs
+        * name {string} - The name of the test to run
