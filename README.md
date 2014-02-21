@@ -34,10 +34,10 @@ uTest.runAllTests();
 ### Run the Test
 ```text
 $ node test-runner.js
-./first-test.js:6:18: error: Failure in TEST(FirstTest)
+./first-test.js:9:18: error: Failure in TEST(FirstGroup, FirstTest)
 	Fail me!
 
-Errors (1 failure, 1 test, 1 ran, 1 check, 0 ignored, 0 filtered out, 14 ms)
+Errors (1 failure, 1 test, 1 ran, 1 check, 0 ignored, 0 filtered out, 36 ms)
 ```
 
 ## Assertions
