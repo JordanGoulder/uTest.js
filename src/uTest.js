@@ -104,6 +104,7 @@ module.exports = {
          this._throwTestError(errorString);
       }
    },
+
    /**
       Check a boolean result and print text on failure.
 
