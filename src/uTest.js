@@ -115,6 +115,23 @@ module.exports = {
    },
 
    /**
+      Check for a false result.
+
+      @instance
+      @param {boolean} condition - The result that is checked
+   */
+   CHECK_FALSE: function (condition) {
+      var errorString;
+
+      this._checkCount++;
+
+      if (condition !== false) {
+         errorString = this._buildErrorString() + "\tCHECK_FALSE failed";
+         this._throwTestError(errorString);
+      }
+   },
+
+   /**
       Check a boolean result and print text on failure.
 
       @instance
