@@ -83,9 +83,8 @@ module.exports = {
                               </dl>
     */
    IGNORE_TEST: function (test) {
-      test.uTest = this;
+      this.TEST(test);
       test.ignore = true;
-      this._testGroups[test.group].tests.push(test);
    },
 
    /**

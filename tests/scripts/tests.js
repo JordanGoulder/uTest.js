@@ -271,6 +271,12 @@ uTest.TEST({ group: "SelfTests", name: "UseTestWithoutGroup",
          }
       });
 
+      this.myTest.IGNORE_TEST({name: "IgnoreTestWithoutGroup",
+         run: function () {
+            this.uTest.CHECK(true);
+         }
+      });
+
       this.myTest.runTest("TestWithoutGroup");
       this.uTest.CHECK(this.myTest._runCount    === 1);
       this.uTest.CHECK(this.myTest._failCount   === 0);
@@ -278,6 +284,7 @@ uTest.TEST({ group: "SelfTests", name: "UseTestWithoutGroup",
       this.myTest.runAllTests();
       this.uTest.CHECK(this.myTest._runCount    === 1);
       this.uTest.CHECK(this.myTest._failCount   === 0);
+      this.uTest.CHECK(this.myTest._ignoreCount === 1);
    }
 
 });

@@ -84,9 +84,8 @@ module.exports = {
                               </dl>
     */
    IGNORE_TEST: function (test) {
-      test.uTest = this;
+      this.TEST(test);
       test.ignore = true;
-      this._testGroups[test.group].tests.push(test);
    },
 
    /**
@@ -105,6 +104,7 @@ module.exports = {
          this._throwTestError(errorString);
       }
    },
+
    /**
       Check a boolean result and print text on failure.
 
@@ -276,6 +276,11 @@ module.exports = {
       this._throwTestError(errorString);
    },
 
+   /**
+      Return a clone of the uTest object that has been initialized.
+
+      @instance
+   */
    clone: function() {
       var newObj = Object.create(this);
       newObj._init();
@@ -621,7 +626,7 @@ uTest.TEST_GROUP({ name: "SelfTests",
 
    setup: function (test) {
       test.myTest = uTest.clone();
-//      test.myTest.disableLogging();
+      test.myTest.disableLogging();
    },
 
    teardown: function (test) {
@@ -888,6 +893,12 @@ uTest.TEST({ group: "SelfTests", name: "UseTestWithoutGroup",
          }
       });
 
+      this.myTest.IGNORE_TEST({name: "IgnoreTestWithoutGroup",
+         run: function () {
+            this.uTest.CHECK(true);
+         }
+      });
+
       this.myTest.runTest("TestWithoutGroup");
       this.uTest.CHECK(this.myTest._runCount    === 1);
       this.uTest.CHECK(this.myTest._failCount   === 0);
@@ -895,6 +906,7 @@ uTest.TEST({ group: "SelfTests", name: "UseTestWithoutGroup",
       this.myTest.runAllTests();
       this.uTest.CHECK(this.myTest._runCount    === 1);
       this.uTest.CHECK(this.myTest._failCount   === 0);
+      this.uTest.CHECK(this.myTest._ignoreCount === 1);
    }
 
 });
