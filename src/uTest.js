@@ -275,6 +275,11 @@ module.exports = {
       this._throwTestError(errorString);
    },
 
+   /**
+      Return a clone of the uTest object that has been initialized.
+
+      @instance
+   */
    clone: function() {
       var newObj = Object.create(this);
       newObj._init();
