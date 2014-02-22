@@ -105,6 +105,16 @@ module.exports = {
    },
 
    /**
+      Check for a true result.
+
+      @instance
+      @param {boolean} condition - The result that is checked
+   */
+   CHECK_TRUE: function (condition) {
+      this.CHECK(condition);
+   },
+
+   /**
       Check a boolean result and print text on failure.
 
       @instance

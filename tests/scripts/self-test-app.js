@@ -106,6 +106,16 @@ module.exports = {
    },
 
    /**
+      Check for a true result.
+
+      @instance
+      @param {boolean} condition - The result that is checked
+   */
+   CHECK_TRUE: function (condition) {
+      this.CHECK(condition);
+   },
+
+   /**
       Check a boolean result and print text on failure.
 
       @instance
@@ -671,6 +681,7 @@ uTest.TEST({ group: "SelfTests", name: "PassingChecks",
          run: function () {
             this.uTest.BYTES_EQUAL(0x8f, 0x8f);
             this.uTest.CHECK(true);
+            this.uTest.CHECK_TRUE(true);
             this.uTest.CHECK_EQUAL(true, true);
             this.uTest.CHECK_TEXT(1 === 1, "When does 1 !== 1?");
             this.uTest.DOUBLES_EQUAL(2.1, 2.2, 0.100001);
@@ -685,7 +696,7 @@ uTest.TEST({ group: "SelfTests", name: "PassingChecks",
       this.uTest.CHECK_EQUAL(1, this.myTest._getTestCount());
       this.uTest.CHECK_EQUAL(0, this.myTest._failCount);
       this.uTest.CHECK_EQUAL(1, this.myTest._runCount);
-      this.uTest.CHECK_EQUAL(8, this.myTest._checkCount);
+      this.uTest.CHECK_EQUAL(9, this.myTest._checkCount);
    }
 });
 
@@ -703,6 +714,12 @@ uTest.TEST({ group: "SelfTests", name: "FailingChecks",
       this.myTest.TEST({ group: "FailingChecksGroup", name: "CHECK",
          run: function () {
             this.uTest.CHECK(false);
+         }
+      });
+
+      this.myTest.TEST({ group: "FailingChecksGroup", name: "CHECK_TRUE",
+         run: function () {
+            this.uTest.CHECK_TRUE(false);
          }
       });
 
@@ -756,10 +773,10 @@ uTest.TEST({ group: "SelfTests", name: "FailingChecks",
 
       this.myTest.runAllTests();
 
-      this.uTest.CHECK(this.myTest._getTestCount() === 10);
-      this.uTest.CHECK(this.myTest._failCount      === 10);
-      this.uTest.CHECK(this.myTest._runCount       === 10);
-      this.uTest.CHECK(this.myTest._checkCount     === 10);
+      this.uTest.CHECK(this.myTest._getTestCount() === 11);
+      this.uTest.CHECK(this.myTest._failCount      === 11);
+      this.uTest.CHECK(this.myTest._runCount       === 11);
+      this.uTest.CHECK(this.myTest._checkCount     === 11);
    }
 });
 

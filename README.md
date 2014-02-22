@@ -59,6 +59,7 @@ $ browserify test-runner.js -o bundle.js
 
 ## Adding Assertions
 * **CHECK (condition)** - Check a boolean result
+* **CHECK_TRUE (condition)** - Check for a true result
 * **CHECK_TEXT (condition, text)** - Check a boolean result and print text on failure
 * **CHECK_EQUAL (expected, actual)** - Check for equality between two entities using strict equality (===)
 * **CHECK_LOOSE_EQUAL (expected, actual)** - Check for equality between two entities using loose equality (==)
