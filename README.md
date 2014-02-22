@@ -14,7 +14,7 @@ var uTest = require('./uTest.js');
 
 uTest.TEST_GROUP({ name: 'FirstGroup' });
 
-uTest.TEST({ group: 'FirstGroup", name: 'FirstTest',
+uTest.TEST({ group: 'FirstGroup', name: 'FirstTest',
    run: function() {
       this.uTest.FAIL('Fail me!');
    }
