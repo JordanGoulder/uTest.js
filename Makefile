@@ -7,7 +7,7 @@ min: ./src/uTest-min.js
 lint:
 	jshint ./src/uTest.js
 
-./src/uTest-min.js: uTest.js
+./src/uTest-min.js: ./src/uTest.js
 	uglifyjs ./src/uTest.js -o ./src/uTest-min.js
 
 .PHONY: doc
