@@ -82,7 +82,7 @@ module.exports = {
                                  <dt>run</dt>
                                  <dd>The function that is run to perform the test</dd>
                               </dl>
-    */
+   */
    IGNORE_TEST: function (test) {
       this.TEST(test);
       test.ignore = true;
@@ -431,8 +431,21 @@ module.exports = {
    },
 
    _log: function (text) {
+      var   divElement,
+            textNode;
+
       if (this._logging === true) {
-         console.log(text);
+         if ((typeof window !== "undefined") && document.body) {
+
+            textNode = document.createTextNode(text);
+
+            divElement = document.createElement("div");
+            divElement.appendChild(textNode);
+
+            document.body.appendChild(divElement);
+         } else {
+            console.log(text);
+         }
       }
    },
 
@@ -637,14 +650,22 @@ module.exports = {
 require("./tests");
 var uTest = require("../../src/uTest");
 
-// Add a couple checks outside of tests to make sure it
-// doesn't cause problems
-uTest.CHECK(true);
-uTest.STRCMP_EQUAL("hello", "hello");
+function main () {
+   // Add a couple checks outside of tests to make sure it
+   // doesn't cause problems
+   uTest.CHECK(true);
+   uTest.STRCMP_EQUAL("hello", "hello");
 
-uTest.enableVerboseLogging();
+   uTest.enableVerboseLogging();
 
-uTest.runAllTests();
+   uTest.runAllTests();
+}
+
+if (typeof window !== "undefined") {
+   window.addEventListener("load", main);
+} else {
+   main();
+}
 
 },{"../../src/uTest":1,"./tests":3}],3:[function(require,module,exports){
 var uTest = require("../../src/uTest");

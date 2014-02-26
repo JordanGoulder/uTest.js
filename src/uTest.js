@@ -81,7 +81,7 @@ module.exports = {
                                  <dt>run</dt>
                                  <dd>The function that is run to perform the test</dd>
                               </dl>
-    */
+   */
    IGNORE_TEST: function (test) {
       this.TEST(test);
       test.ignore = true;
@@ -430,8 +430,21 @@ module.exports = {
    },
 
    _log: function (text) {
+      var   divElement,
+            textNode;
+
       if (this._logging === true) {
-         console.log(text);
+         if ((typeof window !== "undefined") && document.body) {
+
+            textNode = document.createTextNode(text);
+
+            divElement = document.createElement("div");
+            divElement.appendChild(textNode);
+
+            document.body.appendChild(divElement);
+         } else {
+            console.log(text);
+         }
       }
    },
 
