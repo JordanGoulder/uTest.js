@@ -1,5 +1,5 @@
 
-all: release
+all: release debug
 
 release: lint self-test-app-min.js
 
